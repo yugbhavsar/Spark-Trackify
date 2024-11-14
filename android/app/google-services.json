@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "501373164474",
+    "project_id": "espark-trackify",
+    "storage_bucket": "espark-trackify.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:501373164474:android:1e3387a193dc453be45b83",
+        "android_client_info": {
+          "package_name": "com.example.spark_trackify"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "501373164474-6b2cg18143obnenmsuf8k2ob4ga1h9m5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.spark_trackify",
+            "certificate_hash": "93b142a6116eae5d866b9ff4bded3b108e4c07b9"
+          }
+        },
+        {
+          "client_id": "501373164474-9b7oipbe0pp70g8ct6hatfooqt2andvg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBTYnQ8ZUNaFBjUsR1az-0YgQkqVI1hc5Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "501373164474-9b7oipbe0pp70g8ct6hatfooqt2andvg.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "501373164474-d1tj12gemdvh3k0db6n5nib7qs5matop.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.esparkTrackifyDemo.app"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
