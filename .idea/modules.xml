@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/spark_trackify.iml" filepath="$PROJECT_DIR$/spark_trackify.iml" />
+      <module fileurl="file://$PROJECT_DIR$/android/spark_trackify_android.iml" filepath="$PROJECT_DIR$/android/spark_trackify_android.iml" />
+    </modules>
+  </component>
+</project>

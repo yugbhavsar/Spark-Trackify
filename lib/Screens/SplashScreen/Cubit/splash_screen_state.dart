@@ -11,7 +11,6 @@ final class SplashScreenInitial extends SplashScreenState {
 
 }
 
-
 enum SplashToNavigate {
 
   splashScreen,

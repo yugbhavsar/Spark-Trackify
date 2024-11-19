@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:spark_trackify/Repository/APIHelper.dart';
 import 'package:spark_trackify/Utilities/Constants.dart';
 import 'package:spark_trackify/Utilities/Routes.dart';
 import 'package:spark_trackify/Utilities/ThemeColors.dart';
@@ -22,6 +23,7 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.darkColor,
+      resizeToAvoidBottomInset: true,
       body: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
@@ -51,6 +53,7 @@ class LoginScreen extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
               children: [
 
                 const SizedBox(height: 50),
@@ -93,11 +96,11 @@ class LoginScreen extends StatelessWidget {
                   ),
                 ),
 
-                const Expanded(child: SizedBox()),
+                const Spacer(),
 
                 ElevatedButton(
-                    onPressed: (){
-                      Navigator.pushNamed(context, RouteName.tabBarScreen);
+                    onPressed: () async {
+                      await FireDb.Shared.setFireData();
                     },
                     style: ElevatedButton.styleFrom(
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),

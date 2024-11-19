@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
     return const MaterialApp(
         title: "Espark Teckify",
         debugShowCheckedModeBanner: false,
-        initialRoute: RouteName.splashScreen,
+        initialRoute: RouteName.loginScreen,
         onGenerateRoute: AppRoutes.generateRoute);
   }
 }
