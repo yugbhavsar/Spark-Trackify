@@ -1,13 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:spark_trackify/app/core/common/ThemeColors.dart';
-import 'package:spark_trackify/app/features/AssignDetailScreen/bloc/assign_details_bloc.dart';
-import 'package:spark_trackify/app/features/HomeScreen/models/employee_model.dart';
-import 'package:spark_trackify/app/widgets/base_dropdown.dart';
 import 'package:spark_trackify/app/widgets/base_textfield.dart';
 import 'package:spark_trackify/gen/assets.gen.dart';
-
-import '../HomeScreen/DeviceListingScreen.dart';
 
 class AssignDetailScreen extends StatefulWidget {
   final bool isForAssign;
@@ -29,7 +23,7 @@ class _AssignDetailScreenState extends State<AssignDetailScreen> {
   @override
   void initState() {
     super.initState();
-    context.read<AssignDetailsBloc>().add(FetchEmployeesEvent());
+    // context.read<AssignDetailsBloc>().add(FetchEmployeesEvent());
   }
 
   @override
@@ -64,7 +58,7 @@ class _AssignDetailScreenState extends State<AssignDetailScreen> {
                     ),
                   ),
                   const SizedBox(
-                    width: 20,
+                    width: 16,
                   ),
                   Text(
                     deviceName,
@@ -73,19 +67,19 @@ class _AssignDetailScreenState extends State<AssignDetailScreen> {
                 ],
               ),
               const SizedBox(
-                height: 20,
+                height: 16,
               ),
               Center(
                 child: Image.asset(imageName, fit: BoxFit.fitHeight, height: 300),
               ),
               const SizedBox(
-                height: 20,
+                height: 16,
               ),
               AssignDeviceCard(
                 isForAssign: widget.isForAssign,
               ),
               const SizedBox(
-                height: 20,
+                height: 16,
               ),
               Text(
                 "Notes : ",
@@ -179,19 +173,14 @@ class _AssignDeviceCardState extends State<AssignDeviceCard> {
           const SizedBox(
             height: 10,
           ),
-          BlocBuilder<AssignDetailsBloc, AssignDetailsState>(
-            buildWhen: (previous, current) => previous.selectedEmployeeModel != current.selectedEmployeeModel,
-            builder: (context, state) {
-              return BaseDropdown<EmployeeModel>(
-                valueAsString: (value) => "${value?.firstname} ${value?.lastname}",
-                items: state.employeeList,
-                selectedValue: state.selectedEmployeeModel,
-                onChanged: (value) {
-                  context.read<AssignDetailsBloc>().add(SelectedEmployeeEvent(selectedEmployeeModel: value));
-                },
-              );
-            },
-          ),
+          // BaseDropdown<EmployeeModel>(
+          //   valueAsString: (value) => "${value?.firstname} ${value?.lastname}",
+          //   items: state.employeeList,
+          //   selectedValue: state.selectedEmployeeModel,
+          //   onChanged: (value) {
+          //     context.read<AssignDetailsBloc>().add(SelectedEmployeeEvent(selectedEmployeeModel: value));
+          //   },
+          // ),
           const SizedBox(
             height: 20,
           ),
@@ -253,7 +242,7 @@ class _AssignDeviceCardState extends State<AssignDeviceCard> {
             ),
           ),
           const SizedBox(
-            height: 10,
+            height: 8,
           ),
         ],
       );
@@ -268,7 +257,7 @@ class _AssignDeviceCardState extends State<AssignDeviceCard> {
           const SizedBox(
             height: 10,
           ),
-          SingleDeviceTemplate(imageName: Assets.images.user.path, deviceName: "Yug Bhavsar"),
+          // SingleDeviceTemplate(imageName: Assets.images.user.path, deviceName: "Yug Bhavsar"),
           const SizedBox(
             height: 20,
           ),

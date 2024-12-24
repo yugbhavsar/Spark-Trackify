@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "501373164474",
+    "firebase_url": "https://espark-trackify-default-rtdb.asia-southeast1.firebasedatabase.app",
     "project_id": "espark-trackify",
     "storage_bucket": "espark-trackify.firebasestorage.app"
   },
