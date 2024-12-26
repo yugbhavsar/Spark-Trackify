@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:device_info_plus/device_info_plus.dart';
+import 'package:spark_trackify/app/features/home_screen/models/device_info_model.dart';
 
 class DeviceInfoService {
   static final DeviceInfoService _instance = DeviceInfoService._();
@@ -9,34 +10,33 @@ class DeviceInfoService {
 
   static DeviceInfoService get instance => _instance;
 
-  Future<Map<String, dynamic>> getDeviceInfo() async {
+  Future<DeviceInfoModel?> getDeviceInfo() async {
     final DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
-    Map<String, dynamic> deviceInfo = {};
+    DeviceInfoModel? deviceInfoModel;
     if (Platform.isAndroid) {
-      deviceInfo = _readAndroidBuildData(await deviceInfoPlugin.androidInfo);
+      return deviceInfoModel = _readAndroidBuildData(await deviceInfoPlugin.androidInfo);
     } else if (Platform.isIOS) {
-      deviceInfo = _readIosDeviceInfo(await deviceInfoPlugin.iosInfo);
+      return deviceInfoModel = _readIosDeviceInfo(await deviceInfoPlugin.iosInfo);
     }
-    return deviceInfo;
+
+    return deviceInfoModel;
   }
 
-  Map<String, dynamic> _readAndroidBuildData(AndroidDeviceInfo build) {
-    return <String, dynamic>{
-      'id': build.id.replaceAll(".", ""),
-      'deviceName': build.model,
-      'modelName': build.manufacturer,
-      'version': build.version.release,
-      "os": "Android"
-    };
+  DeviceInfoModel _readAndroidBuildData(AndroidDeviceInfo build) {
+    return DeviceInfoModel(
+        deviceId: build.id.replaceAll(".", ""),
+        deviceName: build.model,
+        modelName: build.manufacturer,
+        os: "Android",
+        version: build.version.release);
   }
 
-  Map<String, dynamic> _readIosDeviceInfo(IosDeviceInfo data) {
-    return <String, dynamic>{
-      'id': data.identifierForVendor,
-      'deviceName': data.name,
-      'modelName': data.model,
-      'version': data.systemVersion,
-      "os": "Ios"
-    };
+  DeviceInfoModel _readIosDeviceInfo(IosDeviceInfo data) {
+    return DeviceInfoModel(
+        deviceId: data.identifierForVendor ?? "",
+        deviceName: data.name,
+        modelName: data.model,
+        os: "Ios",
+        version: data.systemVersion);
   }
 }

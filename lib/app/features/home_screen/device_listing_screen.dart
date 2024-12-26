@@ -17,6 +17,12 @@ class DeviceListingScreen extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: BlocBuilder<HomeCubit, HomeState>(
         builder: (context, state) {
+          if (state.isLoading) {
+            return Center(
+                child: CircularProgressIndicator(
+              color: AppColors.primaryGreen,
+            ));
+          }
           return ListView.builder(
             itemCount: state.deviceDataList.length,
             itemBuilder: (context, index) {

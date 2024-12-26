@@ -59,6 +59,10 @@ class $AssetsImagesGen {
   /// File path: assets/images/padlock.png
   AssetGenImage get padlock => const AssetGenImage('assets/images/padlock.png');
 
+  /// File path: assets/images/personPlaceholder.jpg
+  AssetGenImage get personPlaceholder =>
+      const AssetGenImage('assets/images/personPlaceholder.jpg');
+
   /// File path: assets/images/user.png
   AssetGenImage get user => const AssetGenImage('assets/images/user.png');
 
@@ -76,6 +80,7 @@ class $AssetsImagesGen {
         iphone11,
         occupied,
         padlock,
+        personPlaceholder,
         user
       ];
 }

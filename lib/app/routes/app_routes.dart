@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../features/AssignDetailScreen/AssignDetailScreen.dart';
-import '../features/home_screen/cubit/home_cubit.dart';
+import '../features/device_assign_details_screen/device_assign_detail_screen.dart';
 import '../features/home_screen/device_listing_screen.dart';
 import '../features/home_screen/home_screen.dart';
 import '../features/search_employee_screen/search_employee_screen.dart';
@@ -18,11 +16,8 @@ class AppRoutes {
   static Map<String, Widget Function(BuildContext)> appRoutes = {
     splashScreen: (context) => SplashScreen(),
     deviceListingScreen: (context) => DeviceListingScreen(),
-    homeScreen: (context) => BlocProvider(
-          create: (context) => HomeCubit(),
-          child: HomeScreen(),
-        ),
-    assignDetailScreen: (context) => AssignDetailScreen(),
+    homeScreen: (context) => HomeScreen(),
+    assignDetailScreen: (context) => DeviceAssignDetailScreen(),
     searchEmployeeScreen: (context) => SearchEmployeeScreen()
   };
 }

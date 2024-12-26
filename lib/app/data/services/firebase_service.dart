@@ -20,13 +20,24 @@ class FirebaseService {
         deviceDataMap.forEach((key, value) {
           deviceList.add(DeviceDataModel.fromMap(key, value));
         });
-      } else {
-        log("No data found under 'deviceData'.");
       }
     } catch (e) {
       log("Error fetching deviceData: ${e.toString()}");
     }
     return deviceList;
+  }
+
+  Future<String> getToken() async {
+    String token = "";
+    try {
+      final event = await FirebaseDatabase.instance.ref().child("token").get();
+      if (event.value != null) {
+        token = event.value as String;
+      }
+    } catch (e) {
+      log("Error fetching Token: ${e.toString()}");
+    }
+    return token;
   }
 
   Future<void> addDeviceInfo(Map<String, dynamic> deviceInfo) async {

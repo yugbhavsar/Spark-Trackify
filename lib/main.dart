@@ -2,8 +2,12 @@ import 'dart:io';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:spark_trackify/app/features/home_screen/repository/home_repository.dart';
 import 'package:spark_trackify/app/routes/app_routes.dart';
+
+import 'app/features/home_screen/cubit/home_cubit.dart';
 
 void main() async {
   await dotenv.load(fileName: ".env");
@@ -19,15 +23,23 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-      child: MaterialApp(
-        title: "eSpark Trackify",
-        debugShowCheckedModeBanner: false,
-        initialRoute: AppRoutes.splashScreen,
-        routes: AppRoutes.appRoutes,
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-          useMaterial3: true,
-          scaffoldBackgroundColor: Colors.white,
+      child: MultiRepositoryProvider(
+        providers: [
+          RepositoryProvider(create: (context) => HomeRepository()),
+        ],
+        child: BlocProvider(
+          create: (context) => HomeCubit(context.read<HomeRepository>()),
+          child: MaterialApp(
+            title: "eSpark Trackify",
+            debugShowCheckedModeBanner: false,
+            initialRoute: AppRoutes.splashScreen,
+            routes: AppRoutes.appRoutes,
+            theme: ThemeData(
+              colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+              useMaterial3: true,
+              scaffoldBackgroundColor: Colors.white,
+            ),
+          ),
         ),
       ),
     );

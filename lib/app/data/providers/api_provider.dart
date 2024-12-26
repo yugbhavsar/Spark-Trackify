@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -24,14 +23,13 @@ class ApiProvider {
 
   Future<Map<String, dynamic>> postRequest({required String endPoint, Map<String, String>? body, String? token}) async {
     try {
-      log("log: ${jsonEncode(body)}");
       final response = await http
           .post(Uri.parse(dotenv.get("BASE_URL", fallback: "") + endPoint),
               headers: {
                 ..._headers,
                 if ((token ?? "").isNotEmpty) ...{'Authorization': "Bearer ${token!}"}
               },
-              body: jsonEncode(body.toString()))
+              body: jsonEncode(body))
           .timeout(const Duration(seconds: 35));
 
       if (response.statusCode == 200 || response.statusCode == 201) {
