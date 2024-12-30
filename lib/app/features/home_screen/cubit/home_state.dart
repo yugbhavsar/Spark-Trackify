@@ -11,6 +11,8 @@ final class HomeState {
   DeviceAssignFor deviceAssignForGroupValue;
   DeviceInfoModel? deviceInfoModel;
   EmployeeModel? selectedAssignEmployee;
+  TextEditingController employeeNameController;
+  TextEditingController noteController;
 
   HomeState(
       {required this.activeStatus,
@@ -22,14 +24,18 @@ final class HomeState {
       required this.filteredEmployeeList,
       required this.deviceDataList,
       required this.selectedTab,
-      required this.deviceAssignForGroupValue});
+      required this.deviceAssignForGroupValue,
+      required this.noteController,
+      required this.employeeNameController});
 
   static HomeState initial() => HomeState(
       activeStatus: ActiveStatus.loaded,
       filteredEmployeeList: [],
       deviceDataList: [],
       selectedTab: 0,
-      deviceAssignForGroupValue: DeviceAssignFor.development);
+      deviceAssignForGroupValue: DeviceAssignFor.development,
+      noteController: TextEditingController(),
+      employeeNameController: TextEditingController());
 
   HomeState copy() {
     return HomeState(
@@ -42,6 +48,8 @@ final class HomeState {
         filteredEmployeeList: filteredEmployeeList,
         employeeDataList: employeeDataList,
         deviceAssignForGroupValue: deviceAssignForGroupValue,
-        deviceInfoModel: deviceInfoModel);
+        deviceInfoModel: deviceInfoModel,
+        noteController: noteController,
+        employeeNameController: employeeNameController);
   }
 }

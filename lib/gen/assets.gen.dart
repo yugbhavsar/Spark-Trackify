@@ -15,6 +15,13 @@ import 'package:vector_graphics/vector_graphics.dart' as _vg;
 class $AssetsImagesGen {
   const $AssetsImagesGen();
 
+  /// File path: assets/images/arrow.png
+  AssetGenImage get arrow => const AssetGenImage('assets/images/arrow.png');
+
+  /// File path: assets/images/arrowright.png
+  AssetGenImage get arrowright =>
+      const AssetGenImage('assets/images/arrowright.png');
+
   /// File path: assets/images/assign.png
   AssetGenImage get assign => const AssetGenImage('assets/images/assign.png');
 
@@ -25,6 +32,10 @@ class $AssetsImagesGen {
   /// File path: assets/images/development.png
   AssetGenImage get development =>
       const AssetGenImage('assets/images/development.png');
+
+  /// File path: assets/images/down_arrow.png
+  AssetGenImage get downArrow =>
+      const AssetGenImage('assets/images/down_arrow.png');
 
   /// File path: assets/images/eSparkBiz.png
   AssetGenImage get eSparkBiz =>
@@ -48,6 +59,9 @@ class $AssetsImagesGen {
   AssetGenImage get personPlaceholder =>
       const AssetGenImage('assets/images/personPlaceholder.jpg');
 
+  /// File path: assets/images/rotate.png
+  AssetGenImage get rotate => const AssetGenImage('assets/images/rotate.png');
+
   /// File path: assets/images/testing.png
   AssetGenImage get testing => const AssetGenImage('assets/images/testing.png');
 
@@ -60,15 +74,19 @@ class $AssetsImagesGen {
 
   /// List of all assets
   List<AssetGenImage> get values => [
+        arrow,
+        arrowright,
         assign,
         backArrow,
         development,
+        downArrow,
         eSparkBiz,
         gadgets,
         ipad10thGen,
         occupied,
         padlock,
         personPlaceholder,
+        rotate,
         testing,
         unassign,
         user
@@ -117,8 +135,11 @@ class $AssetsSvgsGen {
   SvgGenImage get eSparkLogo =>
       const SvgGenImage('assets/svgs/eSpark_logo.svg');
 
+  /// File path: assets/svgs/empty_data.svg
+  SvgGenImage get emptyData => const SvgGenImage('assets/svgs/empty_data.svg');
+
   /// List of all assets
-  List<SvgGenImage> get values => [caretDownBold, eSparkLogo];
+  List<SvgGenImage> get values => [caretDownBold, eSparkLogo, emptyData];
 }
 
 class Assets {

@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:spark_trackify/app/data/utils/app_utils.dart';
@@ -27,10 +25,9 @@ class _DeviceDetailsScreenState extends State<DeviceDetailsScreen> {
       Map? args = ModalRoute.settingsOf(context)?.arguments as Map?;
       deviceDataModel = args?["deviceData"];
       assignForImagePath = Assets.images.values
-          .firstWhereOrNull(
-              (element) => element.path.contains(deviceDataModel?.currentActiveUser?.assignFor?.name.toLowerCase() ?? "-1"))
+          .firstWhereOrNull((element) =>
+              element.path.contains(deviceDataModel?.currentActiveUser?.assignFor?.name.toLowerCase() ?? Assets.images.unassign.path))
           ?.path;
-      log("log: assign for: ${assignForImagePath}");
       setState(() {});
     });
   }
@@ -76,15 +73,17 @@ class _DeviceDetailsScreenState extends State<DeviceDetailsScreen> {
               const SizedBox(
                 height: 16,
               ),
-              Text(
-                "Assign To : ",
-                style: appTextStyle(textColor: Colors.black, fontSize: 18, style: FontStyle.medium),
-              ),
-              SizedBox(height: 8),
-              EmployeeCardView(
-                  profileImage: deviceDataModel?.currentActiveUser?.empImage,
-                  fullName: "${deviceDataModel?.currentActiveUser?.firstName} ${deviceDataModel?.currentActiveUser?.lastName}",
-                  department: deviceDataModel?.currentActiveUser?.department),
+              if (deviceDataModel?.currentActiveUser != null) ...[
+                Text(
+                  "Assign To : ",
+                  style: appTextStyle(textColor: Colors.black, fontSize: 18, style: FontStyle.medium),
+                ),
+                SizedBox(height: 8),
+                EmployeeCardView(
+                    profileImage: deviceDataModel?.currentActiveUser?.empImage,
+                    fullName: "${deviceDataModel?.currentActiveUser?.firstName} ${deviceDataModel?.currentActiveUser?.lastName}",
+                    department: deviceDataModel?.currentActiveUser?.department)
+              ],
               SizedBox(height: 20),
               Text(
                 "Assign For : ",
@@ -97,18 +96,20 @@ class _DeviceDetailsScreenState extends State<DeviceDetailsScreen> {
                     Image.asset(assignForImagePath ?? "", width: 48, height: 48, fit: BoxFit.cover),
                     SizedBox(width: 16)
                   ],
-                  Text(deviceDataModel?.currentActiveUser?.assignFor?.name ?? "",
+                  Text(deviceDataModel?.currentActiveUser?.assignFor?.name ?? "Unassign",
                       style: appTextStyle(textColor: Colors.black, fontSize: 22, style: FontStyle.medium)),
                 ],
               ),
-              SizedBox(height: 16),
-              Text(
-                "Note : ",
-                style: appTextStyle(textColor: Colors.black, fontSize: 18, style: FontStyle.medium),
-              ),
-              SizedBox(height: 8),
-              Text(deviceDataModel?.currentActiveUser?.note ?? "",
-                  style: appTextStyle(textColor: Colors.black, fontSize: 16, style: FontStyle.regular)),
+              if (deviceDataModel?.currentActiveUser != null) ...[
+                SizedBox(height: 16),
+                Text(
+                  "Note : ",
+                  style: appTextStyle(textColor: Colors.black, fontSize: 18, style: FontStyle.medium),
+                ),
+                SizedBox(height: 8),
+                Text(deviceDataModel?.currentActiveUser?.note ?? "",
+                    style: appTextStyle(textColor: Colors.black, fontSize: 16, style: FontStyle.regular)),
+              ],
               SizedBox(height: 20),
             ],
           ),

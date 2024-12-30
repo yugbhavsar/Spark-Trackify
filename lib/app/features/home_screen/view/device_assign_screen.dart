@@ -25,9 +25,6 @@ class _DeviceAssignScreenState extends State<DeviceAssignScreen> {
     context.read<HomeCubit>().getDeviceInfo();
   }
 
-  final TextEditingController employeeNameController = TextEditingController();
-  final TextEditingController noteController = TextEditingController();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -74,17 +71,21 @@ class _DeviceAssignScreenState extends State<DeviceAssignScreen> {
                 style: appTextStyle(textColor: Colors.black, fontSize: 18, style: FontStyle.medium),
               ),
               SizedBox(height: 8),
-              BaseTextField(
-                controller: employeeNameController,
-                placeholder: "Employee Name",
-                readOnly: true,
-                onTap: () async {
-                  var args = await Navigator.pushNamed(context, AppRoutes.searchEmployeeScreen);
-                  if (args != null) {
-                    Map? map = args as Map?;
-                    employeeNameController.text = map?["name"] ?? "";
-                    context.read<HomeCubit>().selectedAssignInfo(map?["id"]);
-                  }
+              BlocBuilder<HomeCubit, HomeState>(
+                builder: (context, state) {
+                  return BaseTextField(
+                    controller: state.employeeNameController,
+                    placeholder: "Employee Name",
+                    readOnly: true,
+                    onTap: () async {
+                      var args = await Navigator.pushNamed(context, AppRoutes.searchEmployeeScreen);
+                      if (args != null) {
+                        Map? map = args as Map?;
+                        state.employeeNameController.text = map?["name"] ?? "";
+                        context.read<HomeCubit>().selectedAssignInfo(map?["id"]);
+                      }
+                    },
+                  );
                 },
               ),
               SizedBox(height: 20),
@@ -123,15 +124,22 @@ class _DeviceAssignScreenState extends State<DeviceAssignScreen> {
                 style: appTextStyle(textColor: Colors.black, fontSize: 18, style: FontStyle.medium),
               ),
               SizedBox(height: 8),
-              BaseTextField(
-                controller: noteController,
-                placeholder: "Note...",
-                maxLines: 3,
+              BlocBuilder<HomeCubit, HomeState>(
+                builder: (context, state) {
+                  return BaseTextField(
+                    controller: state.noteController,
+                    placeholder: "Note...",
+                    maxLines: 3,
+                  );
+                },
               ),
               SizedBox(height: 20),
               BaseButton(
                 label: "Assign",
-                onClick: () => context.read<HomeCubit>().assignDevice(note: noteController.text.trim()),
+                onClick: () {
+                  FocusManager.instance.primaryFocus?.unfocus();
+                  context.read<HomeCubit>().assignDevice();
+                },
               ),
               SizedBox(height: 20),
             ],
