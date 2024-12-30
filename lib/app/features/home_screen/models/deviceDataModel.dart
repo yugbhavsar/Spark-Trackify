@@ -1,3 +1,7 @@
+import 'package:collection/collection.dart';
+
+import '../../../core/enums/app_enum.dart';
+
 class DeviceDataModel {
   String? deviceId;
   String? deviceName;
@@ -41,14 +45,20 @@ class DeviceDataModel {
         "currentActiveUser": currentActiveUser?.toMap() ?? {},
         "history": history == null ? [] : List<dynamic>.from(history!.map((x) => x.toMap())),
       };
+
+  @override
+  String toString() {
+    return 'DeviceDataModel{deviceId: $deviceId, deviceName: $deviceName, modelName: $modelName, version: $version, deviceImage: $deviceImage, os: $os, currentActiveUser: $currentActiveUser, history: $history}';
+  }
 }
 
 class CurrentActiveUser {
   String? empId;
   String? firstName;
   String? lastName;
+  String? department;
   String? empImage;
-  String? assignFor;
+  DeviceAssignFor? assignFor;
   String? note;
   DateTime? createdAt;
   DateTime? deletedAt;
@@ -57,6 +67,7 @@ class CurrentActiveUser {
     this.empId,
     this.firstName,
     this.lastName,
+    this.department,
     this.empImage,
     this.assignFor,
     this.note,
@@ -69,7 +80,10 @@ class CurrentActiveUser {
         firstName: json["firstName"],
         lastName: json["lastName"],
         empImage: json["empImage"],
-        assignFor: json["assignFor"],
+        department: json["department"],
+        assignFor: DeviceAssignFor.values.firstWhereOrNull(
+          (element) => element.name == json["assignFor"],
+        ),
         note: json["note"],
         createdAt: json["createdAt"] == null ? null : DateTime.parse(json["createdAt"]),
         deletedAt: json["deletedAt"] == null ? null : DateTime.parse(json["deletedAt"]),
@@ -80,7 +94,8 @@ class CurrentActiveUser {
         "firstName": firstName,
         "lastName": lastName,
         "empImage": empImage,
-        "assignFor": assignFor,
+        "department": department,
+        "assignFor": assignFor?.name,
         "note": note,
         "createdAt": createdAt?.toIso8601String(),
         "deletedAt": deletedAt?.toIso8601String(),

@@ -12,4 +12,9 @@ class DeviceInfoModel {
     required this.version,
     required this.os,
   });
+
+  @override
+  String toString() {
+    return 'DeviceInfoModel{deviceName: $deviceName, deviceId: $deviceId, modelName: $modelName, version: $version, os: $os}';
+  }
 }

@@ -3,9 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:spark_trackify/app/core/common/ThemeColors.dart';
 import 'package:spark_trackify/app/features/home_screen/models/deviceDataModel.dart';
 import 'package:spark_trackify/app/routes/app_routes.dart';
-import 'package:spark_trackify/gen/assets.gen.dart';
 
-import 'cubit/home_cubit.dart';
+import '../../../data/utils/app_utils.dart';
+import '../cubit/home_cubit.dart';
 
 class DeviceListingScreen extends StatelessWidget {
   DeviceListingScreen({super.key});
@@ -29,7 +29,7 @@ class DeviceListingScreen extends StatelessWidget {
               DeviceDataModel deviceDataModel = state.deviceDataList[index];
               return GestureDetector(
                   onTap: () {
-                    Navigator.pushNamed(context, AppRoutes.assignDetailScreen);
+                    Navigator.pushNamed(context, AppRoutes.deviceDetailsScreen, arguments: {"deviceData": deviceDataModel});
                   },
                   child: SingleDeviceTemplate(
                     deviceDataModel: deviceDataModel,
@@ -61,13 +61,13 @@ class SingleDeviceTemplate extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             deviceDataModel.deviceImage != null && (deviceDataModel.deviceImage?.isNotEmpty ?? false)
-                ? Image.network(
-                    deviceDataModel.deviceImage ?? "",
+                ? Image.asset(
+                    AppUtils.getDeviceImage(modelName: deviceDataModel.deviceImage ?? ""),
                     width: 70,
                     height: 70,
-                    fit: BoxFit.cover,
                   )
-                : Assets.images.iphone11.image(
+                : Image.asset(
+                    AppUtils.getDeviceImage(modelName: deviceDataModel.modelName ?? ""),
                     width: 70,
                     height: 70,
                     fit: BoxFit.cover,
@@ -96,14 +96,13 @@ class SingleDeviceTemplate extends StatelessWidget {
                             style: appTextStyle(textColor: Colors.grey.withOpacity(.8), fontSize: 14, style: FontStyle.medium),
                           ),
                           Text(
-                            deviceDataModel.currentActiveUser?.assignFor ?? "-",
-                            style: appTextStyle(textColor: AppColors.darkColor, fontSize: 15, style: FontStyle.medium),
+                            deviceDataModel.currentActiveUser?.assignFor?.name ?? "-",
+                            style: appTextStyle(textColor: AppColors.darkColor, fontSize: 14, style: FontStyle.medium),
                           ),
                         ],
                       ),
                     ),
                     Expanded(
-                      flex: 2,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.start,
@@ -114,7 +113,7 @@ class SingleDeviceTemplate extends StatelessWidget {
                           ),
                           Text(
                             "${deviceDataModel.currentActiveUser?.firstName ?? ""} ${deviceDataModel.currentActiveUser?.lastName ?? "-"}",
-                            style: appTextStyle(textColor: AppColors.darkColor, fontSize: 15, style: FontStyle.medium),
+                            style: appTextStyle(textColor: AppColors.darkColor, fontSize: 14, style: FontStyle.medium),
                           ),
                         ],
                       ),

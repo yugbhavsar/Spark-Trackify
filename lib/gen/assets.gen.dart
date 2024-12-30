@@ -22,20 +22,13 @@ class $AssetsImagesGen {
   AssetGenImage get backArrow =>
       const AssetGenImage('assets/images/backArrow.png');
 
-  /// File path: assets/images/caretDownBold.svg
-  SvgGenImage get caretDownBold =>
-      const SvgGenImage('assets/images/caretDownBold.svg');
+  /// File path: assets/images/development.png
+  AssetGenImage get development =>
+      const AssetGenImage('assets/images/development.png');
 
   /// File path: assets/images/eSparkBiz.png
   AssetGenImage get eSparkBiz =>
       const AssetGenImage('assets/images/eSparkBiz.png');
-
-  /// File path: assets/images/eSpark_logo.svg
-  SvgGenImage get eSparkLogo =>
-      const SvgGenImage('assets/images/eSpark_logo.svg');
-
-  /// File path: assets/images/free.png
-  AssetGenImage get free => const AssetGenImage('assets/images/free.png');
 
   /// File path: assets/images/gadgets.png
   AssetGenImage get gadgets => const AssetGenImage('assets/images/gadgets.png');
@@ -43,14 +36,6 @@ class $AssetsImagesGen {
   /// File path: assets/images/ipad-10thGen.png
   AssetGenImage get ipad10thGen =>
       const AssetGenImage('assets/images/ipad-10thGen.png');
-
-  /// File path: assets/images/ipad-3rdGen.png
-  AssetGenImage get ipad3rdGen =>
-      const AssetGenImage('assets/images/ipad-3rdGen.png');
-
-  /// File path: assets/images/iphone_11.png
-  AssetGenImage get iphone11 =>
-      const AssetGenImage('assets/images/iphone_11.png');
 
   /// File path: assets/images/occupied.png
   AssetGenImage get occupied =>
@@ -63,26 +48,77 @@ class $AssetsImagesGen {
   AssetGenImage get personPlaceholder =>
       const AssetGenImage('assets/images/personPlaceholder.jpg');
 
+  /// File path: assets/images/testing.png
+  AssetGenImage get testing => const AssetGenImage('assets/images/testing.png');
+
+  /// File path: assets/images/unassign.png
+  AssetGenImage get unassign =>
+      const AssetGenImage('assets/images/unassign.png');
+
   /// File path: assets/images/user.png
   AssetGenImage get user => const AssetGenImage('assets/images/user.png');
 
   /// List of all assets
-  List<dynamic> get values => [
+  List<AssetGenImage> get values => [
         assign,
         backArrow,
-        caretDownBold,
+        development,
         eSparkBiz,
-        eSparkLogo,
-        free,
         gadgets,
         ipad10thGen,
-        ipad3rdGen,
-        iphone11,
         occupied,
         padlock,
         personPlaceholder,
+        testing,
+        unassign,
         user
       ];
+}
+
+class $AssetsPhonesGen {
+  const $AssetsPhonesGen();
+
+  /// File path: assets/phones/ipadair3.png
+  AssetGenImage get ipadair3 =>
+      const AssetGenImage('assets/phones/ipadair3.png');
+
+  /// File path: assets/phones/iphone12.png
+  AssetGenImage get iphone12 =>
+      const AssetGenImage('assets/phones/iphone12.png');
+
+  /// File path: assets/phones/motog31.png
+  AssetGenImage get motog31 => const AssetGenImage('assets/phones/motog31.png');
+
+  /// File path: assets/phones/oneplus9r.png
+  AssetGenImage get oneplus9r =>
+      const AssetGenImage('assets/phones/oneplus9r.png');
+
+  /// File path: assets/phones/readmeNote11.png
+  AssetGenImage get readmeNote11 =>
+      const AssetGenImage('assets/phones/readmeNote11.png');
+
+  /// File path: assets/phones/samsungf235g.png
+  AssetGenImage get samsungf235g =>
+      const AssetGenImage('assets/phones/samsungf235g.png');
+
+  /// List of all assets
+  List<AssetGenImage> get values =>
+      [ipadair3, iphone12, motog31, oneplus9r, readmeNote11, samsungf235g];
+}
+
+class $AssetsSvgsGen {
+  const $AssetsSvgsGen();
+
+  /// File path: assets/svgs/caretDownBold.svg
+  SvgGenImage get caretDownBold =>
+      const SvgGenImage('assets/svgs/caretDownBold.svg');
+
+  /// File path: assets/svgs/eSpark_logo.svg
+  SvgGenImage get eSparkLogo =>
+      const SvgGenImage('assets/svgs/eSpark_logo.svg');
+
+  /// List of all assets
+  List<SvgGenImage> get values => [caretDownBold, eSparkLogo];
 }
 
 class Assets {
@@ -90,6 +126,8 @@ class Assets {
 
   static const String aEnv = '.env';
   static const $AssetsImagesGen images = $AssetsImagesGen();
+  static const $AssetsPhonesGen phones = $AssetsPhonesGen();
+  static const $AssetsSvgsGen svgs = $AssetsSvgsGen();
 
   /// List of all assets
   static List<String> get values => [aEnv];

@@ -4,7 +4,7 @@ import 'package:spark_trackify/app/core/common/ThemeColors.dart';
 import 'package:spark_trackify/app/features/home_screen/cubit/home_cubit.dart';
 import 'package:spark_trackify/gen/assets.gen.dart';
 
-import '../device_assign_details_screen/device_assign_detail_screen.dart';
+import 'device_assign_screen.dart';
 import 'device_listing_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -21,7 +21,9 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
   void initState() {
     super.initState();
     tabController = TabController(length: 2, vsync: this);
-    context.read<HomeCubit>().fetchDeviceAndEmployeeData();
+    context.read<HomeCubit>().fetchDeviceData();
+    context.read<HomeCubit>().fetchEmployeeData();
+
     tabController.addListener(() {
       context.read<HomeCubit>().tabBarClick(tabController.index);
     });
@@ -34,10 +36,17 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
       top: false,
       child: Scaffold(
         backgroundColor: Colors.white,
-        body: TabBarView(controller: tabController, children: [
-          DeviceListingScreen(),
-          DeviceAssignDetailScreen(isForAssign: true),
-        ]),
+        body: BlocListener<HomeCubit, HomeState>(
+          listener: (context, state) {
+            if (tabController.index != state.selectedTab) {
+              tabController.animateTo(state.selectedTab);
+            }
+          },
+          child: TabBarView(controller: tabController, children: [
+            DeviceListingScreen(),
+            DeviceAssignScreen(),
+          ]),
+        ),
         bottomNavigationBar: Container(
           height: 75,
           margin: EdgeInsets.only(bottom: 16, left: 16, right: 16, top: 6),

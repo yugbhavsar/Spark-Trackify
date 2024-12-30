@@ -1,27 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:spark_trackify/app/core/common/ThemeColors.dart';
+import 'package:spark_trackify/app/data/utils/app_utils.dart';
 import 'package:spark_trackify/app/routes/app_routes.dart';
 import 'package:spark_trackify/app/widgets/base_button.dart';
 import 'package:spark_trackify/app/widgets/base_textfield.dart';
-import 'package:spark_trackify/gen/assets.gen.dart';
 
-import '../../core/enums/app_enum.dart';
-import '../home_screen/cubit/home_cubit.dart';
+import '../../../core/enums/app_enum.dart';
+import '../cubit/home_cubit.dart';
 
-class DeviceAssignDetailScreen extends StatefulWidget {
-  final bool isForAssign;
-
-  DeviceAssignDetailScreen({
+class DeviceAssignScreen extends StatefulWidget {
+  DeviceAssignScreen({
     super.key,
-    this.isForAssign = false,
   });
 
   @override
-  State<DeviceAssignDetailScreen> createState() => _DeviceAssignDetailScreenState();
+  State<DeviceAssignScreen> createState() => _DeviceAssignScreenState();
 }
 
-class _DeviceAssignDetailScreenState extends State<DeviceAssignDetailScreen> {
+class _DeviceAssignScreenState extends State<DeviceAssignScreen> {
   @override
   void initState() {
     super.initState();
@@ -64,7 +61,8 @@ class _DeviceAssignDetailScreenState extends State<DeviceAssignDetailScreen> {
                 buildWhen: (previous, current) => previous.deviceInfoModel != current.deviceInfoModel,
                 builder: (context, state) {
                   return Center(
-                    child: Assets.images.iphone11.image(fit: BoxFit.fitHeight, height: 300),
+                    child: Image.asset(AppUtils.getDeviceImage(modelName: state.deviceInfoModel?.modelName ?? ""),
+                        fit: BoxFit.fitHeight, height: 300),
                   );
                 },
               ),

@@ -96,7 +96,7 @@ class BaseDropdown<T> extends StatelessWidget {
             ),
             iconStyleData: IconStyleData(
                 icon: BaseSvg(
-              iconName: Assets.images.caretDownBold.path,
+              iconName: Assets.svgs.caretDownBold.path,
               iconColor: Colors.black54,
             )),
             dropdownStyleData: DropdownStyleData(

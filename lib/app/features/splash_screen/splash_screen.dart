@@ -33,7 +33,7 @@ class _SplashScreenState extends State<SplashScreen> {
         child: Hero(
             tag: "eSparkLogo",
             child: SvgPicture.asset(
-              Assets.images.eSparkLogo.path,
+              Assets.svgs.eSparkLogo.path,
               fit: BoxFit.fill,
               height: 55,
             )),

@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:device_info_plus/device_info_plus.dart';
@@ -32,10 +33,27 @@ class DeviceInfoService {
   }
 
   DeviceInfoModel _readIosDeviceInfo(IosDeviceInfo data) {
+    log({
+      'name': data.name,
+      'systemName': data.systemName,
+      'systemVersion': data.systemVersion,
+      'model': data.model,
+      'modelName': data.modelName,
+      'localizedModel': data.localizedModel,
+      'identifierForVendor': data.identifierForVendor,
+      'isPhysicalDevice': data.isPhysicalDevice,
+      'isiOSAppOnMac': data.isiOSAppOnMac,
+      'utsname.sysname:': data.utsname.sysname,
+      'utsname.nodename:': data.utsname.nodename,
+      'utsname.release:': data.utsname.release,
+      'utsname.version:': data.utsname.version,
+      'utsname.machine:': data.utsname.machine,
+    }.toString());
+
     return DeviceInfoModel(
         deviceId: data.identifierForVendor ?? "",
         deviceName: data.name,
-        modelName: data.model,
+        modelName: data.modelName,
         os: "Ios",
         version: data.systemVersion);
   }

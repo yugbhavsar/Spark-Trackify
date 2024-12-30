@@ -73,43 +73,10 @@ class SearchEmployeeScreen extends StatelessWidget {
                           Navigator.pop(
                               context, {"name": "${employeeModel.firstname} ${employeeModel.lastname}", "id": employeeModel.id});
                         },
-                        child: Card(
-                          elevation: 1,
-                          color: Colors.white,
-                          margin: EdgeInsets.symmetric(vertical: 8),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                ClipRRect(
-                                  borderRadius: BorderRadius.circular(50),
-                                  child: BaseImageView(
-                                      width: 60,
-                                      height: 60,
-                                      imageUrl: employeeModel.profileImage ?? "",
-                                      nameLetters: "${employeeModel.firstname} ${employeeModel.lastname}".getFirstTwoWordInitials()),
-                                ),
-                                SizedBox(width: 12),
-                                Expanded(
-                                    child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      "${employeeModel.firstname} ${employeeModel.lastname}",
-                                      style: appTextStyle(textColor: AppColors.darkColor, fontSize: 20, style: FontStyle.semibold),
-                                    ),
-                                    SizedBox(height: 8),
-                                    Text(
-                                      employeeModel.departmentname ?? "",
-                                      style: appTextStyle(textColor: AppColors.darkColor, fontSize: 14, style: FontStyle.regular),
-                                    )
-                                  ],
-                                ))
-                              ],
-                            ),
-                          ),
+                        child: EmployeeCardView(
+                          profileImage: employeeModel.profileImage,
+                          department: employeeModel.departmentname,
+                          fullName: "${employeeModel.firstname} ${employeeModel.lastname}",
                         ),
                       );
                     },
@@ -121,6 +88,53 @@ class SearchEmployeeScreen extends StatelessWidget {
           ],
         ),
       )),
+    );
+  }
+}
+
+class EmployeeCardView extends StatelessWidget {
+  final String? profileImage;
+  final String? fullName;
+  final String? department;
+
+  const EmployeeCardView({super.key, required this.profileImage, this.department, this.fullName});
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      elevation: 1,
+      color: Colors.white,
+      margin: EdgeInsets.symmetric(vertical: 8),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(50),
+              child: BaseImageView(
+                  width: 60, height: 60, imageUrl: profileImage ?? "", nameLetters: "$fullName".getFirstTwoWordInitials()),
+            ),
+            SizedBox(width: 12),
+            Expanded(
+                child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Text(
+                  "$fullName",
+                  style: appTextStyle(textColor: AppColors.darkColor, fontSize: 20, style: FontStyle.semibold),
+                ),
+                SizedBox(height: 8),
+                Text(
+                  department ?? "",
+                  style: appTextStyle(textColor: AppColors.darkColor, fontSize: 14, style: FontStyle.regular),
+                )
+              ],
+            ))
+          ],
+        ),
+      ),
     );
   }
 }
