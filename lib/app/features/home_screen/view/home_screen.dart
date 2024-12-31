@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:spark_trackify/app/core/common/ThemeColors.dart';
@@ -39,9 +37,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
       child: Scaffold(
         backgroundColor: Colors.white,
         body: BlocConsumer<HomeCubit, HomeState>(
-          // buildWhen: (previous, current) => previous.deviceDataList?.length != current.deviceDataList?.length,
           builder: (context, state) {
-            log("log: home ${state.deviceDataList?.length}");
             return TabBarView(controller: tabController, children: [
               DeviceListingScreen(deviceDataList: state.deviceDataList ?? []),
               DeviceAssignScreen(
