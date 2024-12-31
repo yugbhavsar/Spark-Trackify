@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:spark_trackify/app/core/common/ThemeColors.dart';
 import 'package:spark_trackify/app/data/utils/app_utils.dart';
+import 'package:spark_trackify/app/features/home_screen/models/device_info_model.dart';
 import 'package:spark_trackify/app/routes/app_routes.dart';
 import 'package:spark_trackify/app/widgets/base_button.dart';
 import 'package:spark_trackify/app/widgets/base_textfield.dart';
@@ -12,7 +13,16 @@ import '../cubit/home_cubit.dart';
 class DeviceAssignScreen extends StatefulWidget {
   DeviceAssignScreen({
     super.key,
+    this.deviceInfoModel,
+    required this.employeeNameController,
+    required this.noteController,
+    required this.deviceAssignForGroupValue,
   });
+
+  final DeviceInfoModel? deviceInfoModel;
+  final TextEditingController employeeNameController;
+  final TextEditingController noteController;
+  final DeviceAssignFor deviceAssignForGroupValue;
 
   @override
   State<DeviceAssignScreen> createState() => _DeviceAssignScreenState();
@@ -41,27 +51,17 @@ class _DeviceAssignScreenState extends State<DeviceAssignScreen> {
               const SizedBox(
                 height: 16,
               ),
-              BlocBuilder<HomeCubit, HomeState>(
-                buildWhen: (previous, current) => previous.deviceInfoModel != current.deviceInfoModel,
-                builder: (context, state) {
-                  return Text(
-                    textAlign: TextAlign.center,
-                    state.deviceInfoModel?.deviceName ?? "",
-                    style: appTextStyle(textColor: AppColors.darkColor, fontSize: 24, style: FontStyle.semibold),
-                  );
-                },
+              Text(
+                textAlign: TextAlign.center,
+                widget.deviceInfoModel?.deviceName ?? "",
+                style: appTextStyle(textColor: AppColors.darkColor, fontSize: 24, style: FontStyle.semibold),
               ),
               const SizedBox(
                 height: 16,
               ),
-              BlocBuilder<HomeCubit, HomeState>(
-                buildWhen: (previous, current) => previous.deviceInfoModel != current.deviceInfoModel,
-                builder: (context, state) {
-                  return Center(
-                    child: Image.asset(AppUtils.getDeviceImage(modelName: state.deviceInfoModel?.modelName ?? ""),
-                        fit: BoxFit.fitHeight, height: 300),
-                  );
-                },
+              Center(
+                child: Image.asset(getDeviceImage(modelName: widget.deviceInfoModel?.modelName ?? ""),
+                    fit: BoxFit.fitHeight, height: 300),
               ),
               const SizedBox(
                 height: 16,
@@ -71,21 +71,17 @@ class _DeviceAssignScreenState extends State<DeviceAssignScreen> {
                 style: appTextStyle(textColor: Colors.black, fontSize: 18, style: FontStyle.medium),
               ),
               SizedBox(height: 8),
-              BlocBuilder<HomeCubit, HomeState>(
-                builder: (context, state) {
-                  return BaseTextField(
-                    controller: state.employeeNameController,
-                    placeholder: "Employee Name",
-                    readOnly: true,
-                    onTap: () async {
-                      var args = await Navigator.pushNamed(context, AppRoutes.searchEmployeeScreen);
-                      if (args != null) {
-                        Map? map = args as Map?;
-                        state.employeeNameController.text = map?["name"] ?? "";
-                        context.read<HomeCubit>().selectedAssignInfo(map?["id"]);
-                      }
-                    },
-                  );
+              BaseTextField(
+                controller: widget.employeeNameController,
+                placeholder: "Employee Name",
+                readOnly: true,
+                onTap: () async {
+                  var args = await Navigator.pushNamed(context, AppRoutes.searchEmployeeScreen);
+                  if (args != null) {
+                    Map? map = args as Map?;
+                    widget.employeeNameController.text = map?["name"] ?? "";
+                    context.read<HomeCubit>().selectedAssignInfo(map?["id"]);
+                  }
                 },
               ),
               SizedBox(height: 20),
@@ -94,44 +90,35 @@ class _DeviceAssignScreenState extends State<DeviceAssignScreen> {
                 style: appTextStyle(textColor: Colors.black, fontSize: 18, style: FontStyle.medium),
               ),
               SizedBox(height: 8),
-              BlocBuilder<HomeCubit, HomeState>(
-                buildWhen: (previous, current) => previous.deviceAssignForGroupValue != current.deviceAssignForGroupValue,
-                builder: (context, state) {
-                  return Column(
-                      children: DeviceAssignFor.values.map(
-                    (e) {
-                      return RadioListTile(
-                        visualDensity: VisualDensity(horizontal: -4),
-                        contentPadding: EdgeInsets.zero,
-                        value: e,
-                        activeColor: AppColors.btnGreen,
-                        groupValue: state.deviceAssignForGroupValue,
-                        onChanged: (value) {
-                          context.read<HomeCubit>().assignForSelection(value ?? DeviceAssignFor.development);
-                        },
-                        title: Text(
-                          e.name,
-                          style: appTextStyle(textColor: Colors.black, fontSize: 18, style: FontStyle.semibold),
-                        ),
-                      );
+              Column(
+                  children: DeviceAssignFor.values.map(
+                (e) {
+                  return RadioListTile(
+                    visualDensity: VisualDensity(horizontal: -4),
+                    contentPadding: EdgeInsets.zero,
+                    value: e,
+                    activeColor: AppColors.btnGreen,
+                    groupValue: widget.deviceAssignForGroupValue,
+                    onChanged: (value) {
+                      context.read<HomeCubit>().assignForSelection(value ?? DeviceAssignFor.development);
                     },
-                  ).toList());
+                    title: Text(
+                      e.name,
+                      style: appTextStyle(textColor: Colors.black, fontSize: 18, style: FontStyle.semibold),
+                    ),
+                  );
                 },
-              ),
+              ).toList()),
               SizedBox(height: 16),
               Text(
                 "Note : ",
                 style: appTextStyle(textColor: Colors.black, fontSize: 18, style: FontStyle.medium),
               ),
               SizedBox(height: 8),
-              BlocBuilder<HomeCubit, HomeState>(
-                builder: (context, state) {
-                  return BaseTextField(
-                    controller: state.noteController,
-                    placeholder: "Note...",
-                    maxLines: 3,
-                  );
-                },
+              BaseTextField(
+                controller: widget.noteController,
+                placeholder: "Note...",
+                maxLines: 3,
               ),
               SizedBox(height: 20),
               BaseButton(

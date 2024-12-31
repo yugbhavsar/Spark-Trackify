@@ -60,8 +60,8 @@ class CurrentActiveUser {
   String? empImage;
   DeviceAssignFor? assignFor;
   String? note;
-  DateTime? createdAt;
-  DateTime? deletedAt;
+  String? createdAt;
+  String? deletedAt;
 
   CurrentActiveUser({
     this.empId,
@@ -85,8 +85,8 @@ class CurrentActiveUser {
           (element) => element.name == json["assignFor"],
         ),
         note: json["note"],
-        createdAt: json["createdAt"] == null ? null : DateTime.parse(json["createdAt"]),
-        deletedAt: json["deletedAt"] == null ? null : DateTime.parse(json["deletedAt"]),
+        createdAt: json["createdAt"],
+        deletedAt: json["deletedAt"],
       );
 
   Map<String, dynamic> toMap() => {
@@ -97,7 +97,7 @@ class CurrentActiveUser {
         "department": department,
         "assignFor": assignFor?.name,
         "note": note,
-        "createdAt": createdAt?.toIso8601String(),
-        "deletedAt": deletedAt?.toIso8601String(),
+        "createdAt": createdAt,
+        "deletedAt": deletedAt,
       };
 }

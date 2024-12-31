@@ -1,68 +1,57 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:spark_trackify/app/core/common/ThemeColors.dart';
 import 'package:spark_trackify/app/features/home_screen/models/deviceDataModel.dart';
 import 'package:spark_trackify/app/routes/app_routes.dart';
 import 'package:spark_trackify/gen/assets.gen.dart';
 
-import '../cubit/home_cubit.dart';
-
 class DeviceListingScreen extends StatelessWidget {
-  DeviceListingScreen({super.key});
+  DeviceListingScreen({super.key, required this.deviceDataList});
+
+  final List<DeviceDataModel> deviceDataList;
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
         child: Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: BlocBuilder<HomeCubit, HomeState>(
-        builder: (context, state) {
-          if (state.isLoading) {
-            return Center(
-                child: CircularProgressIndicator(
-              color: AppColors.primaryGreen,
-            ));
-          }
-          return (state.deviceDataList.isEmpty)
-              ? Center(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+      child: (deviceDataList.isEmpty)
+          ? Center(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Column(
                     children: [
-                      Column(
-                        children: [
-                          Assets.svgs.emptyData.svg(fit: BoxFit.fitWidth),
-                          Text("No any Devices Found",
-                              style: appTextStyle(textColor: AppColors.darkColor, fontSize: 26, style: FontStyle.medium)),
-                        ],
-                      ),
-                      // SizedBox(height: 32),
-                      Column(
-                        children: [
-                          Text("Swipe right and Assign your device",
-                              style: appTextStyle(textColor: AppColors.primaryGreen, fontSize: 14, style: FontStyle.medium)),
-                          SizedBox(height: 32),
-                          Assets.images.rotate.image(width: 80, height: 80, color: AppColors.primaryGreen),
-                        ],
-                      )
+                      Assets.svgs.emptyData.svg(fit: BoxFit.fitWidth),
+                      Text("No any Devices Found",
+                          style: appTextStyle(textColor: AppColors.darkColor, fontSize: 26, style: FontStyle.medium)),
                     ],
                   ),
-                )
-              : ListView.builder(
-                  itemCount: state.deviceDataList.length,
-                  itemBuilder: (context, index) {
-                    DeviceDataModel deviceDataModel = state.deviceDataList[index];
-                    return GestureDetector(
-                        onTap: () {
-                          Navigator.pushNamed(context, AppRoutes.deviceDetailsScreen, arguments: {"deviceData": deviceDataModel});
-                        },
-                        child: SingleDeviceTemplate(
-                          deviceDataModel: deviceDataModel,
-                        ));
-                  },
-                );
-        },
-      ),
+                  // SizedBox(height: 32),
+                  Column(
+                    children: [
+                      Text("Swipe right and Assign your device",
+                          style: appTextStyle(textColor: AppColors.primaryGreen, fontSize: 14, style: FontStyle.medium)),
+                      SizedBox(height: 32),
+                      Assets.images.rotate.image(width: 80, height: 80, color: AppColors.primaryGreen),
+                    ],
+                  )
+                ],
+              ),
+            )
+          : ListView.builder(
+              itemCount: deviceDataList.length,
+              itemBuilder: (context, index) {
+                DeviceDataModel deviceDataModel = deviceDataList[index];
+                return GestureDetector(
+                    onTap: () {
+                      Navigator.pushNamed(context, AppRoutes.deviceDetailsScreen, arguments: {"deviceData": deviceDataModel});
+                    },
+                    child: SingleDeviceTemplate(
+                      deviceDataModel: deviceDataModel,
+                    ));
+              },
+            ),
     ));
   }
 }
@@ -146,7 +135,8 @@ class SingleDeviceTemplate extends StatelessWidget {
                   ],
                 ),
               ],
-            ))
+            )),
+            if (deviceDataModel.currentActiveUser == null) ...[Assets.images.unassign.image(width: 50, height: 50)]
           ],
         ),
       ),

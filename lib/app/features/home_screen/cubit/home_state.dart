@@ -5,7 +5,7 @@ final class HomeState {
   String? errorMessage;
   int selectedTab;
   bool isLoading;
-  List<DeviceDataModel> deviceDataList;
+  List<DeviceDataModel>? deviceDataList;
   List<EmployeeModel>? employeeDataList;
   List<EmployeeModel> filteredEmployeeList;
   DeviceAssignFor deviceAssignForGroupValue;
@@ -22,7 +22,7 @@ final class HomeState {
       this.deviceInfoModel,
       this.selectedAssignEmployee,
       required this.filteredEmployeeList,
-      required this.deviceDataList,
+      this.deviceDataList,
       required this.selectedTab,
       required this.deviceAssignForGroupValue,
       required this.noteController,
@@ -31,7 +31,6 @@ final class HomeState {
   static HomeState initial() => HomeState(
       activeStatus: ActiveStatus.loaded,
       filteredEmployeeList: [],
-      deviceDataList: [],
       selectedTab: 0,
       deviceAssignForGroupValue: DeviceAssignFor.development,
       noteController: TextEditingController(),

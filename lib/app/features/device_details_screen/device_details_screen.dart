@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:spark_trackify/app/data/utils/app_utils.dart';
 import 'package:spark_trackify/app/features/home_screen/models/deviceDataModel.dart';
 import 'package:spark_trackify/app/features/search_employee_screen/search_employee_screen.dart';
+import 'package:spark_trackify/app/routes/app_routes.dart';
 
 import '../../../gen/assets.gen.dart';
 import '../../core/common/ThemeColors.dart';
@@ -61,14 +62,20 @@ class _DeviceDetailsScreenState extends State<DeviceDetailsScreen> {
                     deviceDataModel?.deviceName ?? "",
                     style: appTextStyle(textColor: AppColors.darkColor, fontSize: 24, style: FontStyle.semibold),
                   ),
+                  Spacer(),
+                  GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamed(context, AppRoutes.historyScreen, arguments: {"historyData": deviceDataModel?.history});
+                      },
+                      child: Text("History",
+                          style: appTextStyle(textColor: AppColors.primaryGreen, fontSize: 18, style: FontStyle.semibold)))
                 ],
               ),
               const SizedBox(
                 height: 16,
               ),
               Center(
-                child: Image.asset(AppUtils.getDeviceImage(modelName: deviceDataModel?.modelName ?? ""),
-                    fit: BoxFit.fitHeight, height: 300),
+                child: Image.asset(getDeviceImage(modelName: deviceDataModel?.modelName ?? ""), fit: BoxFit.fitHeight, height: 300),
               ),
               const SizedBox(
                 height: 16,

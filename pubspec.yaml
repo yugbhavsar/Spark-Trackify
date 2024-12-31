@@ -47,6 +47,7 @@ dependencies:
   fluttertoast: ^8.2.8
   device_info_plus: ^11.2.0
   cached_network_image: ^3.4.1
+  intl: ^0.20.1
 
 dev_dependencies:
   flutter_test:
