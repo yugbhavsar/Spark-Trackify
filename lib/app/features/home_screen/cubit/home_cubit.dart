@@ -179,6 +179,7 @@ class HomeCubit extends Cubit<HomeState> {
   void selectedAssignInfo(int id) {
     HomeState homeState = state.copy();
     homeState.selectedAssignEmployee = homeState.employeeDataList?.firstWhereOrNull((element) => element.id == id);
+    homeState.filteredEmployeeList = homeState.employeeDataList ?? [];
     emit(homeState);
   }
 

@@ -83,8 +83,8 @@ class SingleDeviceTemplate extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 6),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             if (deviceDataModel.deviceImage?.isNotEmpty ?? false) ...[
               CachedNetworkImage(
@@ -100,7 +100,7 @@ class SingleDeviceTemplate extends StatelessWidget {
             SizedBox(width: 8),
             Expanded(
                 child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
@@ -108,43 +108,45 @@ class SingleDeviceTemplate extends StatelessWidget {
                   style: appTextStyle(textColor: AppColors.darkColor, fontSize: 18, style: FontStyle.semibold),
                 ),
                 SizedBox(height: 8),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Assign For",
-                            style: appTextStyle(textColor: Colors.grey.withOpacity(.8), fontSize: 14, style: FontStyle.medium),
-                          ),
-                          Text(
-                            deviceDataModel.currentActiveUser?.assignFor?.name ?? "-",
-                            style: appTextStyle(textColor: AppColors.darkColor, fontSize: 14, style: FontStyle.medium),
-                          ),
-                        ],
+                if (deviceDataModel.currentActiveUser != null) ...[
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Assign For",
+                              style: appTextStyle(textColor: Colors.grey.withOpacity(.8), fontSize: 14, style: FontStyle.medium),
+                            ),
+                            Text(
+                              deviceDataModel.currentActiveUser?.assignFor?.name ?? "-",
+                              style: appTextStyle(textColor: AppColors.darkColor, fontSize: 14, style: FontStyle.medium),
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Assign To",
-                            style: appTextStyle(textColor: Colors.grey.withOpacity(.8), fontSize: 14, style: FontStyle.medium),
-                          ),
-                          Text(
-                            "${deviceDataModel.currentActiveUser?.firstName ?? ""} ${deviceDataModel.currentActiveUser?.lastName ?? "-"}",
-                            style: appTextStyle(textColor: AppColors.darkColor, fontSize: 14, style: FontStyle.medium),
-                          ),
-                        ],
-                      ),
-                    )
-                  ],
-                ),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Assign To",
+                              style: appTextStyle(textColor: Colors.grey.withOpacity(.8), fontSize: 14, style: FontStyle.medium),
+                            ),
+                            Text(
+                              "${deviceDataModel.currentActiveUser?.firstName ?? ""} ${deviceDataModel.currentActiveUser?.lastName ?? "-"}",
+                              style: appTextStyle(textColor: AppColors.darkColor, fontSize: 14, style: FontStyle.medium),
+                            ),
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
+                ]
               ],
             )),
             if (deviceDataModel.currentActiveUser == null) ...[Assets.images.unassign.image(width: 36, height: 36)]
