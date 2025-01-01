@@ -108,8 +108,9 @@ class $AssetsPhonesGen {
   AssetGenImage get iphone15promax =>
       const AssetGenImage('assets/phones/iphone15promax.png');
 
-  /// File path: assets/phones/motog31.png
-  AssetGenImage get motog31 => const AssetGenImage('assets/phones/motog31.png');
+  /// File path: assets/phones/moto_g_31.png
+  AssetGenImage get motoG31 =>
+      const AssetGenImage('assets/phones/moto_g_31.png');
 
   /// File path: assets/phones/oneplus9r.png
   AssetGenImage get oneplus9r =>
@@ -118,23 +119,39 @@ class $AssetsPhonesGen {
   /// File path: assets/phones/phone.png
   AssetGenImage get phone => const AssetGenImage('assets/phones/phone.png');
 
-  /// File path: assets/phones/readmeNote11.png
+  /// File path: assets/phones/readme_note_11.png
   AssetGenImage get readmeNote11 =>
-      const AssetGenImage('assets/phones/readmeNote11.png');
+      const AssetGenImage('assets/phones/readme_note_11.png');
 
-  /// File path: assets/phones/samsung.png
-  AssetGenImage get samsung => const AssetGenImage('assets/phones/samsung.png');
+  /// File path: assets/phones/redmi_note_11.png
+  AssetGenImage get redmiNote11 =>
+      const AssetGenImage('assets/phones/redmi_note_11.png');
+
+  /// File path: assets/phones/samsung_f23_brown.png
+  AssetGenImage get samsungF23Brown =>
+      const AssetGenImage('assets/phones/samsung_f23_brown.png');
+
+  /// File path: assets/phones/samsung_f23_green.png
+  AssetGenImage get samsungF23Green =>
+      const AssetGenImage('assets/phones/samsung_f23_green.png');
+
+  /// File path: assets/phones/samsung_f23_light_blue.png
+  AssetGenImage get samsungF23LightBlue =>
+      const AssetGenImage('assets/phones/samsung_f23_light_blue.png');
 
   /// List of all assets
   List<AssetGenImage> get values => [
         ipadair3,
         iphone12,
         iphone15promax,
-        motog31,
+        motoG31,
         oneplus9r,
         phone,
         readmeNote11,
-        samsung
+        redmiNote11,
+        samsungF23Brown,
+        samsungF23Green,
+        samsungF23LightBlue
       ];
 }
 

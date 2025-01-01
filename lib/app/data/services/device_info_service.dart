@@ -24,6 +24,12 @@ class DeviceInfoService {
   }
 
   DeviceInfoModel _readAndroidBuildData(AndroidDeviceInfo build) {
+    log({
+      'version.release': build.version.release,
+      'id': build.id,
+      'manufacturer': build.manufacturer,
+      'model': build.model,
+    }.toString());
     return DeviceInfoModel(
         deviceId: build.id.replaceAll(".", ""),
         deviceName: build.model,
@@ -39,15 +45,7 @@ class DeviceInfoService {
       'systemVersion': data.systemVersion,
       'model': data.model,
       'modelName': data.modelName,
-      'localizedModel': data.localizedModel,
       'identifierForVendor': data.identifierForVendor,
-      'isPhysicalDevice': data.isPhysicalDevice,
-      'isiOSAppOnMac': data.isiOSAppOnMac,
-      'utsname.sysname:': data.utsname.sysname,
-      'utsname.nodename:': data.utsname.nodename,
-      'utsname.release:': data.utsname.release,
-      'utsname.version:': data.utsname.version,
-      'utsname.machine:': data.utsname.machine,
     }.toString());
 
     return DeviceInfoModel(

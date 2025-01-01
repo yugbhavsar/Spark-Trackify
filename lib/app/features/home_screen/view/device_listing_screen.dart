@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:spark_trackify/app/core/common/ThemeColors.dart';
 import 'package:spark_trackify/app/features/home_screen/models/deviceDataModel.dart';
@@ -79,18 +80,15 @@ class SingleDeviceTemplate extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            deviceDataModel.deviceImage != null && (deviceDataModel.deviceImage?.isNotEmpty ?? false)
-                ? Image.asset(
-                    deviceDataModel.deviceImage ?? "",
-                    width: 70,
-                    height: 70,
-                  )
-                : Image.asset(
-                    deviceDataModel.modelName ?? "",
-                    width: 70,
-                    height: 70,
-                    fit: BoxFit.cover,
-                  ),
+            if (deviceDataModel.deviceImage?.isNotEmpty ?? false) ...[
+              CachedNetworkImage(
+                imageUrl: deviceDataModel.deviceImage ?? "",
+                width: 70,
+                height: 70,
+                fit: BoxFit.fitHeight,
+                errorWidget: (context, url, error) => Assets.phones.phone.image(),
+              )
+            ],
             SizedBox(width: 8),
             Expanded(
                 child: Column(

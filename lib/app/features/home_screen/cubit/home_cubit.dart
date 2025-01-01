@@ -38,12 +38,15 @@ class HomeCubit extends Cubit<HomeState> {
       if (deviceDataMap != null) {
         deviceList = deviceDataMap.entries.map((entry) => DeviceDataModel.fromMap(entry.key, entry.value)).toList();
       }
+      DeviceInfoModel? deviceInfoModel = await DeviceInfoService.instance.getDeviceInfo();
       HomeState homeState = state.copy();
+      homeState.deviceInfoModel = deviceInfoModel;
       homeState.isLoading = false;
       homeState.deviceDataList = deviceList;
-      homeState.deviceInfoModel = await DeviceInfoService.instance.getDeviceInfo();
+
       DeviceDataModel? deviceDataModel =
           homeState.deviceDataList?.firstWhereOrNull((element) => element.deviceId == homeState.deviceInfoModel?.deviceId);
+
       if (deviceDataModel != null) {
         homeState.isDeviceRegistered = true;
         if (deviceDataModel.currentActiveUser != null) {
