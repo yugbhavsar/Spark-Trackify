@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:spark_trackify/app/core/common/ThemeColors.dart';
+import 'package:spark_trackify/app/features/home_screen/models/deviceDataModel.dart';
 import 'package:spark_trackify/app/features/home_screen/models/device_info_model.dart';
 import 'package:spark_trackify/app/routes/app_routes.dart';
 import 'package:spark_trackify/app/widgets/base_button.dart';
@@ -12,19 +13,20 @@ import '../../../core/enums/app_enum.dart';
 import '../cubit/home_cubit.dart';
 
 class DeviceAssignScreen extends StatelessWidget {
-  DeviceAssignScreen(
-      {super.key,
-      this.deviceInfoModel,
-      required this.employeeNameController,
-      required this.noteController,
-      required this.deviceAssignForGroupValue,
-      required this.deviceImage});
+  DeviceAssignScreen({
+    super.key,
+    this.deviceInfoModel,
+    required this.employeeNameController,
+    required this.noteController,
+    required this.deviceAssignForGroupValue,
+    this.currentDeviceData,
+  });
 
   final DeviceInfoModel? deviceInfoModel;
   final TextEditingController employeeNameController;
   final TextEditingController noteController;
   final DeviceAssignFor deviceAssignForGroupValue;
-  final String deviceImage;
+  final DeviceDataModel? currentDeviceData;
 
   @override
   Widget build(BuildContext context) {
@@ -40,20 +42,28 @@ class DeviceAssignScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(
-                height: 16,
+                height: 12,
               ),
-              Text(
-                textAlign: TextAlign.center,
-                deviceInfoModel?.modelName ?? "",
-                style: appTextStyle(textColor: AppColors.darkColor, fontSize: 24, style: FontStyle.semibold),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Expanded(
+                    child: Text(
+                      textAlign: TextAlign.center,
+                      overflow: TextOverflow.ellipsis,
+                      currentDeviceData?.deviceName ?? "",
+                      style: appTextStyle(textColor: AppColors.darkColor, fontSize: 22, style: FontStyle.semibold),
+                    ),
+                  ),
+                ],
               ),
               const SizedBox(
-                height: 16,
+                height: 20,
               ),
               Center(
-                child: deviceImage.isNotEmpty
+                child: (currentDeviceData?.deviceImage?.isNotEmpty ?? false)
                     ? CachedNetworkImage(
-                        imageUrl: deviceImage,
+                        imageUrl: currentDeviceData?.deviceImage ?? "",
                         height: 300,
                         fit: BoxFit.fitHeight,
                         errorWidget: (context, url, error) => Assets.phones.phone.image(),

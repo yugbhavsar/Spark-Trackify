@@ -61,7 +61,7 @@ class _DeviceDetailsScreenState extends State<DeviceDetailsScreen> {
         ],
         backgroundColor: Colors.white,
         title: Text(deviceDataModel?.deviceName ?? "",
-            style: appTextStyle(textColor: AppColors.darkColor, fontSize: 24, style: FontStyle.semibold)),
+            style: appTextStyle(textColor: AppColors.darkColor, fontSize: 18, style: FontStyle.semibold)),
       ),
       body: SafeArea(
           child: SingleChildScrollView(
@@ -81,8 +81,8 @@ class _DeviceDetailsScreenState extends State<DeviceDetailsScreen> {
                     ? CachedNetworkImage(
                         imageUrl: deviceDataModel?.deviceImage ?? "",
                         errorWidget: (context, url, error) => Assets.phones.phone.image(),
-                        fit: BoxFit.cover,
-                        height: 300)
+                        fit: BoxFit.fitHeight,
+                        height: 250)
                     : Assets.phones.phone.image(),
               ),
               const SizedBox(

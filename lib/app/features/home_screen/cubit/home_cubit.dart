@@ -156,8 +156,7 @@ class HomeCubit extends Cubit<HomeState> {
       }
       String message;
       if (employeeModel?.firstname != null) {
-        message =
-            "${homeState.deviceInfoModel?.deviceName ?? ""} Assign to ${employeeModel?.firstname ?? ""} ${employeeModel?.lastname ?? ""}";
+        message = "${deviceDataModel?.deviceName ?? ""} Assign to ${employeeModel?.firstname ?? ""} ${employeeModel?.lastname ?? ""}";
       } else {
         message = "Unassign ${homeState.deviceInfoModel?.deviceName ?? ""}";
       }

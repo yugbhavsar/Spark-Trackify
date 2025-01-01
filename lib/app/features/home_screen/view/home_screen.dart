@@ -36,16 +36,16 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
       top: false,
       child: Scaffold(
         backgroundColor: Colors.white,
-        appBar: AppBar(
-          centerTitle: true,
-          backgroundColor: Colors.white,
-          elevation: 0,
-          surfaceTintColor: Colors.transparent,
-          title: Text(
-            "Devices",
-            style: appTextStyle(fontSize: 24, textColor: AppColors.darkColor, style: FontStyle.semibold),
-          ),
-        ),
+        // appBar: AppBar(
+        //   centerTitle: true,
+        //   backgroundColor: Colors.white,
+        //   elevation: 0,
+        //   surfaceTintColor: Colors.transparent,
+        //   title: Text(
+        //     "Devices",
+        //     style: appTextStyle(fontSize: 24, textColor: AppColors.darkColor, style: FontStyle.semibold),
+        //   ),
+        // ),
         body: BlocConsumer<HomeCubit, HomeState>(
           builder: (context, state) {
             if (state.isLoading) {
@@ -62,7 +62,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                       employeeNameController: state.employeeNameController,
                       noteController: state.noteController,
                       deviceInfoModel: state.deviceInfoModel,
-                      deviceImage: state.currentDeviceData?.deviceImage ?? "",
+                      currentDeviceData: state.currentDeviceData,
                     ),
                   ])
                 : DeviceListingScreen(
@@ -81,7 +81,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
             return (!state.isDeviceRegistered)
                 ? SizedBox()
                 : Container(
-                    height: 75,
+                    height: 70,
                     margin: EdgeInsets.only(bottom: 16, left: 16, right: 16, top: 6),
                     padding: EdgeInsets.zero,
                     decoration: BoxDecoration(

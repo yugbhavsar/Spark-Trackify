@@ -119,6 +119,7 @@ class HistoryDeviceCard extends StatelessWidget {
                         ],
                       ),
                     ),
+                    SizedBox(width: 8),
                     Expanded(
                       flex: 2,
                       child: Column(

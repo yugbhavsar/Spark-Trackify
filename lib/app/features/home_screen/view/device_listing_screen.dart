@@ -18,50 +18,55 @@ class DeviceListingScreen extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Column(
         children: [
-          (deviceDataList.isEmpty)
-              ? Center(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
+          if (deviceDataList.isEmpty) ...[
+            Center(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Column(
                     mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Assets.svgs.emptyData.svg(fit: BoxFit.fitWidth, width: 300, height: 300),
-                          Text("No any Devices Found",
-                              style: appTextStyle(textColor: AppColors.darkColor, fontSize: 26, style: FontStyle.medium)),
-                        ],
-                      ),
-                      // SizedBox(height: 32),
-                      if (isDeviceRegistered) ...[
-                        Column(
-                          children: [
-                            Text("Swipe right and Assign your device",
-                                style: appTextStyle(textColor: AppColors.primaryGreen, fontSize: 14, style: FontStyle.medium)),
-                            SizedBox(height: 32),
-                            Assets.images.rotate.image(width: 80, height: 80, color: AppColors.primaryGreen),
-                          ],
-                        )
-                      ]
+                      Assets.svgs.emptyData.svg(fit: BoxFit.fitWidth, width: 300, height: 300),
+                      Text("No any Devices Found",
+                          style: appTextStyle(textColor: AppColors.darkColor, fontSize: 26, style: FontStyle.medium)),
                     ],
                   ),
-                )
-              : Expanded(
-                  child: ListView.builder(
-                    itemCount: deviceDataList.length,
-                    itemBuilder: (context, index) {
-                      DeviceDataModel deviceDataModel = deviceDataList[index];
-                      return GestureDetector(
-                          onTap: () {
-                            Navigator.pushNamed(context, AppRoutes.deviceDetailsScreen, arguments: {"deviceData": deviceDataModel});
-                          },
-                          child: SingleDeviceTemplate(
-                            deviceDataModel: deviceDataModel,
-                          ));
-                    },
-                  ),
-                ),
+                  // SizedBox(height: 32),
+                  if (isDeviceRegistered) ...[
+                    Column(
+                      children: [
+                        Text("Swipe right and Assign your device",
+                            style: appTextStyle(textColor: AppColors.primaryGreen, fontSize: 14, style: FontStyle.medium)),
+                        SizedBox(height: 32),
+                        Assets.images.rotate.image(width: 80, height: 80, color: AppColors.primaryGreen),
+                      ],
+                    )
+                  ]
+                ],
+              ),
+            )
+          ] else ...[
+            SizedBox(height: 16),
+            Text("Devices", style: appTextStyle(textColor: AppColors.darkColor, fontSize: 24, style: FontStyle.semibold)),
+            SizedBox(height: 16),
+            Expanded(
+              child: ListView.builder(
+                itemCount: deviceDataList.length,
+                itemBuilder: (context, index) {
+                  DeviceDataModel deviceDataModel = deviceDataList[index];
+                  return GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamed(context, AppRoutes.deviceDetailsScreen, arguments: {"deviceData": deviceDataModel});
+                      },
+                      child: SingleDeviceTemplate(
+                        deviceDataModel: deviceDataModel,
+                      ));
+                },
+              ),
+            ),
+          ]
         ],
       ),
     ));
