@@ -36,6 +36,33 @@ class _DeviceDetailsScreenState extends State<DeviceDetailsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        elevation: 0,
+        surfaceTintColor: Colors.transparent,
+        leading: GestureDetector(
+            onTap: () {
+              Navigator.pop(context);
+            },
+            child: Padding(
+              padding: const EdgeInsets.all(12),
+              child: Assets.images.backArrow.image(width: 32, height: 32),
+            )),
+        actions: [
+          GestureDetector(
+              onTap: () {
+                Navigator.pushNamed(context, AppRoutes.historyScreen, arguments: {"historyData": deviceDataModel?.history});
+              },
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child:
+                    Text("History", style: appTextStyle(textColor: AppColors.primaryGreen, fontSize: 20, style: FontStyle.semibold)),
+              ))
+        ],
+        backgroundColor: Colors.white,
+        title: Text(deviceDataModel?.deviceName ?? "",
+            style: appTextStyle(textColor: AppColors.darkColor, fontSize: 24, style: FontStyle.semibold)),
+      ),
       body: SafeArea(
           child: SingleChildScrollView(
         physics: const ScrollPhysics(parent: BouncingScrollPhysics()),
@@ -49,37 +76,14 @@ class _DeviceDetailsScreenState extends State<DeviceDetailsScreen> {
               const SizedBox(
                 height: 16,
               ),
-              Row(
-                children: [
-                  GestureDetector(
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
-                      child: Assets.images.backArrow.image(width: 32, height: 32)),
-                  SizedBox(width: 16),
-                  Text(
-                    textAlign: TextAlign.center,
-                    deviceDataModel?.deviceName ?? "",
-                    style: appTextStyle(textColor: AppColors.darkColor, fontSize: 24, style: FontStyle.semibold),
-                  ),
-                  Spacer(),
-                  GestureDetector(
-                      onTap: () {
-                        Navigator.pushNamed(context, AppRoutes.historyScreen, arguments: {"historyData": deviceDataModel?.history});
-                      },
-                      child: Text("History",
-                          style: appTextStyle(textColor: AppColors.primaryGreen, fontSize: 18, style: FontStyle.semibold)))
-                ],
-              ),
-              const SizedBox(
-                height: 16,
-              ),
               Center(
-                child: CachedNetworkImage(
-                    imageUrl: deviceDataModel?.deviceImage ?? "",
-                    errorWidget: (context, url, error) => Assets.phones.phone.image(),
-                    fit: BoxFit.fitHeight,
-                    height: 300),
+                child: (deviceDataModel?.deviceImage?.isNotEmpty ?? false)
+                    ? CachedNetworkImage(
+                        imageUrl: deviceDataModel?.deviceImage ?? "",
+                        errorWidget: (context, url, error) => Assets.phones.phone.image(),
+                        fit: BoxFit.cover,
+                        height: 300)
+                    : Assets.phones.phone.image(),
               ),
               const SizedBox(
                 height: 16,

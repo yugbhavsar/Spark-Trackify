@@ -51,12 +51,14 @@ class DeviceAssignScreen extends StatelessWidget {
                 height: 16,
               ),
               Center(
-                child: CachedNetworkImage(
-                  imageUrl: deviceImage,
-                  height: 300,
-                  fit: BoxFit.fitHeight,
-                  errorWidget: (context, url, error) => Assets.phones.phone.image(),
-                ),
+                child: deviceImage.isNotEmpty
+                    ? CachedNetworkImage(
+                        imageUrl: deviceImage,
+                        height: 300,
+                        fit: BoxFit.fitHeight,
+                        errorWidget: (context, url, error) => Assets.phones.phone.image(),
+                      )
+                    : Assets.phones.phone.image(),
               ),
               const SizedBox(
                 height: 16,

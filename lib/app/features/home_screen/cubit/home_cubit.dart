@@ -51,7 +51,7 @@ class HomeCubit extends Cubit<HomeState> {
         homeState.isDeviceRegistered = true;
         if (deviceDataModel.currentActiveUser != null) {
           homeState.employeeNameController.text =
-              "${deviceDataModel.currentActiveUser?.firstName} ${deviceDataModel.currentActiveUser?.lastName}";
+              "${deviceDataModel.currentActiveUser?.firstName ?? ""} ${deviceDataModel.currentActiveUser?.lastName ?? ""}";
           homeState.noteController.text = deviceDataModel.currentActiveUser?.note ?? "";
         }
         homeState.deviceAssignForGroupValue = deviceDataModel.currentActiveUser?.assignFor ?? DeviceAssignFor.development;

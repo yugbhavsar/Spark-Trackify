@@ -36,6 +36,16 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
       top: false,
       child: Scaffold(
         backgroundColor: Colors.white,
+        appBar: AppBar(
+          centerTitle: true,
+          backgroundColor: Colors.white,
+          elevation: 0,
+          surfaceTintColor: Colors.transparent,
+          title: Text(
+            "Devices",
+            style: appTextStyle(fontSize: 24, textColor: AppColors.darkColor, style: FontStyle.semibold),
+          ),
+        ),
         body: BlocConsumer<HomeCubit, HomeState>(
           builder: (context, state) {
             if (state.isLoading) {

@@ -52,7 +52,7 @@ class BaseImageView extends StatelessWidget {
                 return errorWidget!;
               }
             },
-            fit: BoxFit.cover,
+            fit: BoxFit.contain,
           )
         : Container(
             width: width ?? 80,

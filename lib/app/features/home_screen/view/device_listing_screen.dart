@@ -16,48 +16,54 @@ class DeviceListingScreen extends StatelessWidget {
     return SafeArea(
         child: Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: (deviceDataList.isEmpty)
-          ? Center(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
+      child: Column(
+        children: [
+          (deviceDataList.isEmpty)
+              ? Center(
+                  child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Assets.svgs.emptyData.svg(fit: BoxFit.fitWidth, width: 300, height: 300),
-                      Text("No any Devices Found",
-                          style: appTextStyle(textColor: AppColors.darkColor, fontSize: 26, style: FontStyle.medium)),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Assets.svgs.emptyData.svg(fit: BoxFit.fitWidth, width: 300, height: 300),
+                          Text("No any Devices Found",
+                              style: appTextStyle(textColor: AppColors.darkColor, fontSize: 26, style: FontStyle.medium)),
+                        ],
+                      ),
+                      // SizedBox(height: 32),
+                      if (isDeviceRegistered) ...[
+                        Column(
+                          children: [
+                            Text("Swipe right and Assign your device",
+                                style: appTextStyle(textColor: AppColors.primaryGreen, fontSize: 14, style: FontStyle.medium)),
+                            SizedBox(height: 32),
+                            Assets.images.rotate.image(width: 80, height: 80, color: AppColors.primaryGreen),
+                          ],
+                        )
+                      ]
                     ],
                   ),
-                  // SizedBox(height: 32),
-                  if (isDeviceRegistered) ...[
-                    Column(
-                      children: [
-                        Text("Swipe right and Assign your device",
-                            style: appTextStyle(textColor: AppColors.primaryGreen, fontSize: 14, style: FontStyle.medium)),
-                        SizedBox(height: 32),
-                        Assets.images.rotate.image(width: 80, height: 80, color: AppColors.primaryGreen),
-                      ],
-                    )
-                  ]
-                ],
-              ),
-            )
-          : ListView.builder(
-              itemCount: deviceDataList.length,
-              itemBuilder: (context, index) {
-                DeviceDataModel deviceDataModel = deviceDataList[index];
-                return GestureDetector(
-                    onTap: () {
-                      Navigator.pushNamed(context, AppRoutes.deviceDetailsScreen, arguments: {"deviceData": deviceDataModel});
+                )
+              : Expanded(
+                  child: ListView.builder(
+                    itemCount: deviceDataList.length,
+                    itemBuilder: (context, index) {
+                      DeviceDataModel deviceDataModel = deviceDataList[index];
+                      return GestureDetector(
+                          onTap: () {
+                            Navigator.pushNamed(context, AppRoutes.deviceDetailsScreen, arguments: {"deviceData": deviceDataModel});
+                          },
+                          child: SingleDeviceTemplate(
+                            deviceDataModel: deviceDataModel,
+                          ));
                     },
-                    child: SingleDeviceTemplate(
-                      deviceDataModel: deviceDataModel,
-                    ));
-              },
-            ),
+                  ),
+                ),
+        ],
+      ),
     ));
   }
 }
@@ -88,6 +94,8 @@ class SingleDeviceTemplate extends StatelessWidget {
                 fit: BoxFit.fitHeight,
                 errorWidget: (context, url, error) => Assets.phones.phone.image(),
               )
+            ] else ...[
+              Assets.phones.phone.image()
             ],
             SizedBox(width: 8),
             Expanded(
@@ -97,7 +105,7 @@ class SingleDeviceTemplate extends StatelessWidget {
               children: [
                 Text(
                   deviceDataModel.deviceName ?? "",
-                  style: appTextStyle(textColor: AppColors.darkColor, fontSize: 20, style: FontStyle.semibold),
+                  style: appTextStyle(textColor: AppColors.darkColor, fontSize: 18, style: FontStyle.semibold),
                 ),
                 SizedBox(height: 8),
                 Row(
@@ -139,7 +147,7 @@ class SingleDeviceTemplate extends StatelessWidget {
                 ),
               ],
             )),
-            if (deviceDataModel.currentActiveUser == null) ...[Assets.images.unassign.image(width: 50, height: 50)]
+            if (deviceDataModel.currentActiveUser == null) ...[Assets.images.unassign.image(width: 36, height: 36)]
           ],
         ),
       ),
