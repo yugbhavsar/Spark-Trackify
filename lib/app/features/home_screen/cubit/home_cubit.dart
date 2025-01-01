@@ -141,6 +141,7 @@ class HomeCubit extends Cubit<HomeState> {
         homeState.noteController.text = "";
         homeState.employeeNameController.text = "";
         homeState.deviceAssignForGroupValue = DeviceAssignFor.development;
+        homeState.selectedAssignEmployee = null;
       }
       DeviceDataModel? deviceDataModel =
           homeState.deviceDataList?.firstWhereOrNull((element) => element.deviceId == homeState.deviceInfoModel?.deviceId);
@@ -155,7 +156,7 @@ class HomeCubit extends Cubit<HomeState> {
         await FirebaseService.instance.updateDeviceInfo(deviceDataModel?.toMap() ?? {});
       }
       String message;
-      if (employeeModel?.firstname != null) {
+      if (homeState.selectedAssignEmployee?.firstname != null) {
         message = "${deviceDataModel?.deviceName ?? ""} Assign to ${employeeModel?.firstname ?? ""} ${employeeModel?.lastname ?? ""}";
       } else {
         message = "Unassign ${homeState.deviceInfoModel?.deviceName ?? ""}";
