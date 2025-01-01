@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:device_info_plus/device_info_plus.dart';
+import 'package:flutter_udid/flutter_udid.dart';
 import 'package:spark_trackify/app/features/home_screen/models/device_info_model.dart';
 
 class DeviceInfoService {
@@ -14,45 +15,37 @@ class DeviceInfoService {
   Future<DeviceInfoModel?> getDeviceInfo() async {
     final DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
     DeviceInfoModel? deviceInfoModel;
+    String id = await FlutterUdid.udid;
     if (Platform.isAndroid) {
-      return deviceInfoModel = _readAndroidBuildData(await deviceInfoPlugin.androidInfo);
+      return deviceInfoModel = _readAndroidBuildData(await deviceInfoPlugin.androidInfo, id);
     } else if (Platform.isIOS) {
-      return deviceInfoModel = _readIosDeviceInfo(await deviceInfoPlugin.iosInfo);
+      return deviceInfoModel = _readIosDeviceInfo(await deviceInfoPlugin.iosInfo, id);
     }
-
     return deviceInfoModel;
   }
 
-  DeviceInfoModel _readAndroidBuildData(AndroidDeviceInfo build) {
+  DeviceInfoModel _readAndroidBuildData(AndroidDeviceInfo build, String deviceId) {
     log({
       'version.release': build.version.release,
-      'id': build.id,
+      'id': deviceId,
       'manufacturer': build.manufacturer,
       'model': build.model,
     }.toString());
     return DeviceInfoModel(
-        deviceId: build.id.replaceAll(".", ""),
-        deviceName: build.model,
-        modelName: build.manufacturer,
-        os: "Android",
-        version: build.version.release);
+        deviceId: deviceId, deviceName: build.model, modelName: build.manufacturer, os: "Android", version: build.version.release);
   }
 
-  DeviceInfoModel _readIosDeviceInfo(IosDeviceInfo data) {
+  DeviceInfoModel _readIosDeviceInfo(IosDeviceInfo data, String deviceId) {
     log({
       'name': data.name,
       'systemName': data.systemName,
       'systemVersion': data.systemVersion,
       'model': data.model,
       'modelName': data.modelName,
-      'identifierForVendor': data.identifierForVendor,
+      'id': deviceId,
     }.toString());
 
     return DeviceInfoModel(
-        deviceId: data.identifierForVendor ?? "",
-        deviceName: data.name,
-        modelName: data.modelName,
-        os: "Ios",
-        version: data.systemVersion);
+        deviceId: deviceId, deviceName: data.name, modelName: data.modelName, os: "Ios", version: data.systemVersion);
   }
 }

@@ -48,6 +48,9 @@ class $AssetsImagesGen {
   AssetGenImage get ipad10thGen =>
       const AssetGenImage('assets/images/ipad-10thGen.png');
 
+  /// File path: assets/images/logo.png
+  AssetGenImage get logo => const AssetGenImage('assets/images/logo.png');
+
   /// File path: assets/images/occupied.png
   AssetGenImage get occupied =>
       const AssetGenImage('assets/images/occupied.png');
@@ -83,6 +86,7 @@ class $AssetsImagesGen {
         eSparkBiz,
         gadgets,
         ipad10thGen,
+        logo,
         occupied,
         padlock,
         personPlaceholder,
@@ -95,6 +99,9 @@ class $AssetsImagesGen {
 
 class $AssetsPhonesGen {
   const $AssetsPhonesGen();
+
+  /// File path: assets/phones/ipad_10.png
+  AssetGenImage get ipad10 => const AssetGenImage('assets/phones/ipad_10.png');
 
   /// File path: assets/phones/ipadair3.png
   AssetGenImage get ipadair3 =>
@@ -141,6 +148,7 @@ class $AssetsPhonesGen {
 
   /// List of all assets
   List<AssetGenImage> get values => [
+        ipad10,
         ipadair3,
         iphone12,
         iphone15promax,

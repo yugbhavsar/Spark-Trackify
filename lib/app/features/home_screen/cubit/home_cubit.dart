@@ -4,7 +4,6 @@ import 'package:bloc/bloc.dart';
 import 'package:collection/collection.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'package:spark_trackify/app/data/utils/app_utils.dart';
 import 'package:spark_trackify/app/features/home_screen/models/deviceDataModel.dart';
 import 'package:spark_trackify/app/features/home_screen/models/device_info_model.dart';
 import 'package:spark_trackify/app/features/home_screen/models/employee_model.dart';
@@ -48,6 +47,7 @@ class HomeCubit extends Cubit<HomeState> {
           homeState.deviceDataList?.firstWhereOrNull((element) => element.deviceId == homeState.deviceInfoModel?.deviceId);
 
       if (deviceDataModel != null) {
+        homeState.currentDeviceData = deviceDataModel;
         homeState.isDeviceRegistered = true;
         if (deviceDataModel.currentActiveUser != null) {
           homeState.employeeNameController.text =
@@ -126,7 +126,6 @@ class HomeCubit extends Cubit<HomeState> {
     if (homeState.deviceAssignForGroupValue != DeviceAssignFor.unAssigned && homeState.employeeNameController.text.trim().isEmpty) {
       showToast.setMsg("Please select assignee!");
     } else if (homeState.deviceInfoModel?.deviceId != null) {
-      bool isRegistered = await FirebaseService.instance.isDeviceRegisterInDatabase(homeState.deviceInfoModel?.deviceId ?? "-1");
       CurrentActiveUser? currentActiveUser;
       if (homeState.deviceAssignForGroupValue != DeviceAssignFor.unAssigned) {
         currentActiveUser = CurrentActiveUser(
@@ -138,32 +137,22 @@ class HomeCubit extends Cubit<HomeState> {
             department: employeeModel?.departmentname,
             note: homeState.deviceAssignForGroupValue != DeviceAssignFor.unAssigned ? homeState.noteController.text.trim() : null,
             createdAt: DateTime.now().toIso8601String());
-      }
-
-      if (!isRegistered) {
-        DeviceDataModel deviceDataModel = DeviceDataModel()
-          ..deviceName = homeState.deviceInfoModel?.deviceName
-          ..deviceId = homeState.deviceInfoModel?.deviceId
-          ..modelName = homeState.deviceInfoModel?.modelName
-          ..deviceImage = getDeviceImage(modelName: homeState.deviceInfoModel?.modelName ?? "")
-          ..version = homeState.deviceInfoModel?.version
-          ..os = homeState.deviceInfoModel?.os
-          ..currentActiveUser = currentActiveUser;
-
-        await FirebaseService.instance.addDeviceInfo(deviceDataModel.toMap());
       } else {
-        DeviceDataModel? deviceDataModel =
-            homeState.deviceDataList?.firstWhereOrNull((element) => element.deviceId == homeState.deviceInfoModel?.deviceId);
-        if (deviceDataModel?.currentActiveUser != null) {
-          deviceDataModel?.currentActiveUser?.deletedAt = DateTime.now().toIso8601String();
-          if (deviceDataModel?.currentActiveUser?.assignFor != DeviceAssignFor.unAssigned) {
-            deviceDataModel?.history?.add(deviceDataModel.currentActiveUser!);
-          }
+        homeState.noteController.text = "";
+        homeState.employeeNameController.text = "";
+        homeState.deviceAssignForGroupValue = DeviceAssignFor.development;
+      }
+      DeviceDataModel? deviceDataModel =
+          homeState.deviceDataList?.firstWhereOrNull((element) => element.deviceId == homeState.deviceInfoModel?.deviceId);
+      if (deviceDataModel?.currentActiveUser != null) {
+        deviceDataModel?.currentActiveUser?.deletedAt = DateTime.now().toIso8601String();
+        if (deviceDataModel?.currentActiveUser?.assignFor != DeviceAssignFor.unAssigned) {
+          deviceDataModel?.history?.add(deviceDataModel.currentActiveUser!);
         }
-        deviceDataModel?.currentActiveUser = currentActiveUser;
-        if (deviceDataModel?.toMap() != null) {
-          await FirebaseService.instance.updateDeviceInfo(deviceDataModel?.toMap() ?? {});
-        }
+      }
+      deviceDataModel?.currentActiveUser = currentActiveUser;
+      if (deviceDataModel?.toMap() != null) {
+        await FirebaseService.instance.updateDeviceInfo(deviceDataModel?.toMap() ?? {});
       }
       String message;
       if (employeeModel?.firstname != null) {
@@ -174,8 +163,6 @@ class HomeCubit extends Cubit<HomeState> {
       }
       showToast.setMsg(message);
       homeState.selectedTab = 0;
-      homeState.employeeNameController.text = "";
-      homeState.noteController.text = "";
       homeState.deviceDataList = state.deviceDataList;
       emit(homeState);
     }

@@ -52,6 +52,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                       employeeNameController: state.employeeNameController,
                       noteController: state.noteController,
                       deviceInfoModel: state.deviceInfoModel,
+                      deviceImage: state.currentDeviceData?.deviceImage ?? "",
                     ),
                   ])
                 : DeviceListingScreen(

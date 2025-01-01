@@ -1,6 +1,6 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
-import 'package:spark_trackify/app/data/utils/app_utils.dart';
 import 'package:spark_trackify/app/features/home_screen/models/deviceDataModel.dart';
 import 'package:spark_trackify/app/features/search_employee_screen/search_employee_screen.dart';
 import 'package:spark_trackify/app/routes/app_routes.dart';
@@ -75,7 +75,11 @@ class _DeviceDetailsScreenState extends State<DeviceDetailsScreen> {
                 height: 16,
               ),
               Center(
-                child: Image.asset(getDeviceImage(modelName: deviceDataModel?.modelName ?? ""), fit: BoxFit.fitHeight, height: 300),
+                child: CachedNetworkImage(
+                    imageUrl: deviceDataModel?.deviceImage ?? "",
+                    errorWidget: (context, url, error) => Assets.phones.phone.image(),
+                    fit: BoxFit.fitHeight,
+                    height: 300),
               ),
               const SizedBox(
                 height: 16,

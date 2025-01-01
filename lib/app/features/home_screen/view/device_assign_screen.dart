@@ -1,28 +1,30 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:spark_trackify/app/core/common/ThemeColors.dart';
-import 'package:spark_trackify/app/data/utils/app_utils.dart';
 import 'package:spark_trackify/app/features/home_screen/models/device_info_model.dart';
 import 'package:spark_trackify/app/routes/app_routes.dart';
 import 'package:spark_trackify/app/widgets/base_button.dart';
 import 'package:spark_trackify/app/widgets/base_textfield.dart';
+import 'package:spark_trackify/gen/assets.gen.dart';
 
 import '../../../core/enums/app_enum.dart';
 import '../cubit/home_cubit.dart';
 
 class DeviceAssignScreen extends StatelessWidget {
-  DeviceAssignScreen({
-    super.key,
-    this.deviceInfoModel,
-    required this.employeeNameController,
-    required this.noteController,
-    required this.deviceAssignForGroupValue,
-  });
+  DeviceAssignScreen(
+      {super.key,
+      this.deviceInfoModel,
+      required this.employeeNameController,
+      required this.noteController,
+      required this.deviceAssignForGroupValue,
+      required this.deviceImage});
 
   final DeviceInfoModel? deviceInfoModel;
   final TextEditingController employeeNameController;
   final TextEditingController noteController;
   final DeviceAssignFor deviceAssignForGroupValue;
+  final String deviceImage;
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +51,12 @@ class DeviceAssignScreen extends StatelessWidget {
                 height: 16,
               ),
               Center(
-                child: Image.asset(getDeviceImage(modelName: deviceInfoModel?.modelName ?? ""), fit: BoxFit.fitHeight, height: 300),
+                child: CachedNetworkImage(
+                  imageUrl: deviceImage,
+                  height: 300,
+                  fit: BoxFit.fitHeight,
+                  errorWidget: (context, url, error) => Assets.phones.phone.image(),
+                ),
               ),
               const SizedBox(
                 height: 16,

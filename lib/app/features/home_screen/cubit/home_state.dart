@@ -7,6 +7,7 @@ final class HomeState {
   bool isLoading;
   bool isDeviceRegistered;
   List<DeviceDataModel>? deviceDataList;
+  DeviceDataModel? currentDeviceData;
   List<EmployeeModel>? employeeDataList;
   List<EmployeeModel> filteredEmployeeList;
   DeviceAssignFor deviceAssignForGroupValue;
@@ -22,6 +23,7 @@ final class HomeState {
       this.isLoading = false,
       this.isDeviceRegistered = false,
       this.deviceInfoModel,
+      this.currentDeviceData,
       this.selectedAssignEmployee,
       required this.filteredEmployeeList,
       this.deviceDataList,
@@ -44,6 +46,7 @@ final class HomeState {
         activeStatus: activeStatus,
         errorMessage: errorMessage,
         selectedTab: selectedTab,
+        currentDeviceData: currentDeviceData,
         isDeviceRegistered: isDeviceRegistered,
         selectedAssignEmployee: selectedAssignEmployee,
         deviceDataList: deviceDataList,
