@@ -5,9 +5,10 @@ import 'package:spark_trackify/app/routes/app_routes.dart';
 import 'package:spark_trackify/gen/assets.gen.dart';
 
 class DeviceListingScreen extends StatelessWidget {
-  DeviceListingScreen({super.key, required this.deviceDataList});
+  DeviceListingScreen({super.key, required this.deviceDataList, this.isDeviceRegistered = false});
 
   final List<DeviceDataModel> deviceDataList;
+  final bool isDeviceRegistered;
 
   @override
   Widget build(BuildContext context) {
@@ -18,24 +19,28 @@ class DeviceListingScreen extends StatelessWidget {
           ? Center(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Assets.svgs.emptyData.svg(fit: BoxFit.fitWidth),
+                      Assets.svgs.emptyData.svg(fit: BoxFit.fitWidth, width: 300, height: 300),
                       Text("No any Devices Found",
                           style: appTextStyle(textColor: AppColors.darkColor, fontSize: 26, style: FontStyle.medium)),
                     ],
                   ),
                   // SizedBox(height: 32),
-                  Column(
-                    children: [
-                      Text("Swipe right and Assign your device",
-                          style: appTextStyle(textColor: AppColors.primaryGreen, fontSize: 14, style: FontStyle.medium)),
-                      SizedBox(height: 32),
-                      Assets.images.rotate.image(width: 80, height: 80, color: AppColors.primaryGreen),
-                    ],
-                  )
+                  if (isDeviceRegistered) ...[
+                    Column(
+                      children: [
+                        Text("Swipe right and Assign your device",
+                            style: appTextStyle(textColor: AppColors.primaryGreen, fontSize: 14, style: FontStyle.medium)),
+                        SizedBox(height: 32),
+                        Assets.images.rotate.image(width: 80, height: 80, color: AppColors.primaryGreen),
+                      ],
+                    )
+                  ]
                 ],
               ),
             )

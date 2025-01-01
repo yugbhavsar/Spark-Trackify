@@ -104,6 +104,10 @@ class $AssetsPhonesGen {
   AssetGenImage get iphone12 =>
       const AssetGenImage('assets/phones/iphone12.png');
 
+  /// File path: assets/phones/iphone15promax.png
+  AssetGenImage get iphone15promax =>
+      const AssetGenImage('assets/phones/iphone15promax.png');
+
   /// File path: assets/phones/motog31.png
   AssetGenImage get motog31 => const AssetGenImage('assets/phones/motog31.png');
 
@@ -118,19 +122,19 @@ class $AssetsPhonesGen {
   AssetGenImage get readmeNote11 =>
       const AssetGenImage('assets/phones/readmeNote11.png');
 
-  /// File path: assets/phones/samsungf235g.png
-  AssetGenImage get samsungf235g =>
-      const AssetGenImage('assets/phones/samsungf235g.png');
+  /// File path: assets/phones/samsung.png
+  AssetGenImage get samsung => const AssetGenImage('assets/phones/samsung.png');
 
   /// List of all assets
   List<AssetGenImage> get values => [
         ipadair3,
         iphone12,
+        iphone15promax,
         motog31,
         oneplus9r,
         phone,
         readmeNote11,
-        samsungf235g
+        samsung
       ];
 }
 

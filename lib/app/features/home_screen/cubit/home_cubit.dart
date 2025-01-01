@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:collection/collection.dart';
@@ -33,19 +32,29 @@ class HomeCubit extends Cubit<HomeState> {
   void fetchDeviceData() async {
     emit(state.copy()..isLoading = true);
 
-    _deviceSubscription = FirebaseDatabase.instance.ref().child("deviceData").onValue.listen((event) {
+    _deviceSubscription = FirebaseDatabase.instance.ref().child("deviceData").onValue.listen((event) async {
       final deviceDataMap = event.snapshot.value as Map<dynamic, dynamic>?;
-      log("log: ${deviceDataMap}");
       List<DeviceDataModel> deviceList = [];
       if (deviceDataMap != null) {
         deviceList = deviceDataMap.entries.map((entry) => DeviceDataModel.fromMap(entry.key, entry.value)).toList();
-        log("log: ${deviceList.length}");
       }
       HomeState homeState = state.copy();
       homeState.isLoading = false;
-      log("log: before state ${homeState.deviceDataList?.toString()}");
       homeState.deviceDataList = deviceList;
-      log("log: after state ${homeState.deviceDataList?.toString()}");
+      homeState.deviceInfoModel = await DeviceInfoService.instance.getDeviceInfo();
+      DeviceDataModel? deviceDataModel =
+          homeState.deviceDataList?.firstWhereOrNull((element) => element.deviceId == homeState.deviceInfoModel?.deviceId);
+      if (deviceDataModel != null) {
+        homeState.isDeviceRegistered = true;
+        if (deviceDataModel.currentActiveUser != null) {
+          homeState.employeeNameController.text =
+              "${deviceDataModel.currentActiveUser?.firstName} ${deviceDataModel.currentActiveUser?.lastName}";
+          homeState.noteController.text = deviceDataModel.currentActiveUser?.note ?? "";
+        }
+        homeState.deviceAssignForGroupValue = deviceDataModel.currentActiveUser?.assignFor ?? DeviceAssignFor.development;
+      } else {
+        homeState.isDeviceRegistered = false;
+      }
 
       emit(homeState);
     });
@@ -85,19 +94,6 @@ class HomeCubit extends Cubit<HomeState> {
   //   emit(homeState);
   // }
 
-  void fetchEmployeeData() async {
-    log("log: fetchEmployeeData Called");
-    emit(state.copy()..isLoading = true);
-
-    List<EmployeeModel> employeeData = await homeRepository.getEmployeeData();
-    HomeState homeState = state.copy();
-    homeState.employeeDataList = employeeData;
-    homeState.filteredEmployeeList = employeeData;
-    homeState.isLoading = false;
-    log("log: fetchEmployeeData Called ${homeState.deviceDataList}");
-    emit(homeState);
-  }
-
   void filterEmployees({required String query}) {
     HomeState homeState = state.copy();
     List<EmployeeModel> employeeList = homeState.employeeDataList ?? [];
@@ -117,9 +113,7 @@ class HomeCubit extends Cubit<HomeState> {
 
   void assignForSelection(DeviceAssignFor deviceAssignFor) {
     HomeState homeState = state.copy();
-    log("log: assignForSelection Called ${homeState.deviceDataList}");
     homeState.deviceAssignForGroupValue = deviceAssignFor;
-    log("log: assignForSelection Called ${homeState.deviceDataList}");
     emit(homeState);
   }
 
@@ -129,7 +123,6 @@ class HomeCubit extends Cubit<HomeState> {
     if (homeState.deviceAssignForGroupValue != DeviceAssignFor.unAssigned && homeState.employeeNameController.text.trim().isEmpty) {
       showToast.setMsg("Please select assignee!");
     } else if (homeState.deviceInfoModel?.deviceId != null) {
-      log("log: assignDevice Called ${homeState.deviceDataList}");
       bool isRegistered = await FirebaseService.instance.isDeviceRegisterInDatabase(homeState.deviceInfoModel?.deviceId ?? "-1");
       CurrentActiveUser? currentActiveUser;
       if (homeState.deviceAssignForGroupValue != DeviceAssignFor.unAssigned) {
@@ -180,32 +173,21 @@ class HomeCubit extends Cubit<HomeState> {
       homeState.selectedTab = 0;
       homeState.employeeNameController.text = "";
       homeState.noteController.text = "";
-
-      log("log:after assign  ${homeState.deviceDataList}");
       homeState.deviceDataList = state.deviceDataList;
       emit(homeState);
     }
   }
 
-  void getDeviceInfo() async {
+  void fetchEmployeeData() async {
+    List<EmployeeModel> employeeData = await homeRepository.getEmployeeData();
     HomeState homeState = state.copy();
-    homeState.deviceInfoModel = await DeviceInfoService.instance.getDeviceInfo();
-    DeviceDataModel? deviceDataModel =
-        homeState.deviceDataList?.firstWhereOrNull((element) => element.deviceId == homeState.deviceInfoModel?.deviceId);
-    if (deviceDataModel != null) {
-      if (deviceDataModel.currentActiveUser != null) {
-        homeState.employeeNameController.text =
-            "${deviceDataModel.currentActiveUser?.firstName} ${deviceDataModel.currentActiveUser?.lastName}";
-        homeState.noteController.text = deviceDataModel.currentActiveUser?.note ?? "";
-      }
-      homeState.deviceAssignForGroupValue = deviceDataModel.currentActiveUser?.assignFor ?? DeviceAssignFor.development;
-    }
+    homeState.employeeDataList = employeeData;
+    homeState.filteredEmployeeList = employeeData;
     emit(homeState);
   }
 
   void selectedAssignInfo(int id) {
     HomeState homeState = state.copy();
-    log("log: assign info state ${homeState.deviceDataList}");
     homeState.selectedAssignEmployee = homeState.employeeDataList?.firstWhereOrNull((element) => element.id == id);
     emit(homeState);
   }

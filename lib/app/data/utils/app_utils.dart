@@ -1,11 +1,7 @@
-import 'dart:developer';
-
 import 'package:intl/intl.dart';
 
 String getDeviceImage({required String modelName}) {
-  log("log: ${modelName}");
   if (modelName.isEmpty) {
-    // modelName = "iphone12";
     modelName = "phone";
   }
   return "assets/phones/${modelName.toLowerCase().replaceAll(" ", "")}.png";

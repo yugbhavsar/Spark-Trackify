@@ -10,7 +10,7 @@ import 'package:spark_trackify/app/widgets/base_textfield.dart';
 import '../../../core/enums/app_enum.dart';
 import '../cubit/home_cubit.dart';
 
-class DeviceAssignScreen extends StatefulWidget {
+class DeviceAssignScreen extends StatelessWidget {
   DeviceAssignScreen({
     super.key,
     this.deviceInfoModel,
@@ -23,17 +23,6 @@ class DeviceAssignScreen extends StatefulWidget {
   final TextEditingController employeeNameController;
   final TextEditingController noteController;
   final DeviceAssignFor deviceAssignForGroupValue;
-
-  @override
-  State<DeviceAssignScreen> createState() => _DeviceAssignScreenState();
-}
-
-class _DeviceAssignScreenState extends State<DeviceAssignScreen> {
-  @override
-  void initState() {
-    super.initState();
-    context.read<HomeCubit>().getDeviceInfo();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -53,15 +42,14 @@ class _DeviceAssignScreenState extends State<DeviceAssignScreen> {
               ),
               Text(
                 textAlign: TextAlign.center,
-                widget.deviceInfoModel?.deviceName ?? "",
+                deviceInfoModel?.modelName ?? "",
                 style: appTextStyle(textColor: AppColors.darkColor, fontSize: 24, style: FontStyle.semibold),
               ),
               const SizedBox(
                 height: 16,
               ),
               Center(
-                child: Image.asset(getDeviceImage(modelName: widget.deviceInfoModel?.modelName ?? ""),
-                    fit: BoxFit.fitHeight, height: 300),
+                child: Image.asset(getDeviceImage(modelName: deviceInfoModel?.modelName ?? ""), fit: BoxFit.fitHeight, height: 300),
               ),
               const SizedBox(
                 height: 16,
@@ -72,14 +60,14 @@ class _DeviceAssignScreenState extends State<DeviceAssignScreen> {
               ),
               SizedBox(height: 8),
               BaseTextField(
-                controller: widget.employeeNameController,
+                controller: employeeNameController,
                 placeholder: "Employee Name",
                 readOnly: true,
                 onTap: () async {
                   var args = await Navigator.pushNamed(context, AppRoutes.searchEmployeeScreen);
                   if (args != null) {
                     Map? map = args as Map?;
-                    widget.employeeNameController.text = map?["name"] ?? "";
+                    employeeNameController.text = map?["name"] ?? "";
                     context.read<HomeCubit>().selectedAssignInfo(map?["id"]);
                   }
                 },
@@ -98,7 +86,7 @@ class _DeviceAssignScreenState extends State<DeviceAssignScreen> {
                     contentPadding: EdgeInsets.zero,
                     value: e,
                     activeColor: AppColors.btnGreen,
-                    groupValue: widget.deviceAssignForGroupValue,
+                    groupValue: deviceAssignForGroupValue,
                     onChanged: (value) {
                       context.read<HomeCubit>().assignForSelection(value ?? DeviceAssignFor.development);
                     },
@@ -116,7 +104,7 @@ class _DeviceAssignScreenState extends State<DeviceAssignScreen> {
               ),
               SizedBox(height: 8),
               BaseTextField(
-                controller: widget.noteController,
+                controller: noteController,
                 placeholder: "Note...",
                 maxLines: 3,
               ),

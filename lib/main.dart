@@ -53,7 +53,9 @@ Future<void> setUP() async {
             apiKey: dotenv.get("API_KEY", fallback: ""),
             appId: dotenv.get("APP_ID", fallback: ""),
             messagingSenderId: dotenv.get("MESSAGING_ID", fallback: ""),
-            projectId: dotenv.get("PROJECT_ID", fallback: "")));
+            projectId: dotenv.get("PROJECT_ID", fallback: ""),
+            storageBucket: dotenv.get("STORAGE_URL", fallback: ""),
+            databaseURL: dotenv.get("DATABASE_URL", fallback: "")));
   } else if (Platform.isIOS) {
     await Firebase.initializeApp();
   }
